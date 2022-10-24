@@ -10,4 +10,29 @@
   		INSERT INTO PRODUCT(PRODUCT_ID, PNAME, UNIT_PRICE, DESCRIPTION, MANUFACTURER, CATEGORY, UNITS_IN_STOCK, CONDITION)
 		VALUES(#{productId},#{pname},#{unitPrice},#{description},#{manufacturer},#{category},#{unitsInStock},#{condition})
   	</insert>
+  	
+  	
+  	<!-- 상품 목록 -->
+  	<select id="list" resultType="productVO">
+  		SELECT PRODUCT_ID, PNAME, UNIT_PRICE, DESCRIPTION, MANUFACTURER, CATEGORY, UNITS_IN_STOCK, CONDITION
+		FROM PRODUCT
+		ORDER BY PRODUCT_ID DESC
+  	</select>
+  	
+  	<select id="select_detail" parameterType="productVO" resultType="productVO">
+  		SELECT PRODUCT_ID, PNAME, UNIT_PRICE, DESCRIPTION, MANUFACTURER, CATEGORY, UNITS_IN_STOCK, CONDITION
+		FROM PRODUCT
+		WHERE PRODUCT_ID = #{productId}
+  	</select>
+  	
+  	<update id="update" parameterType="productVO">
+  		UPDATE PRODUCT
+		SET PNAME=#{pname}, UNIT_PRICE=#{unitPrice}, DESCRIPTION=#{description}, MANUFACTURER=#{manufacturer}, CATEGORY=#{category}, UNITS_IN_STOCK=#{unitsInStock}, CONDITION=#{condition}
+		WHERE PRODUCT_ID = #{productId}
+  	</update>
+  	
+  	<delete id="delete" parameterType="String">
+  		DELETE FROM PRODUCT
+  		WHERE PRODUCT_ID = #{productId}
+  	</delete>
   </mapper>

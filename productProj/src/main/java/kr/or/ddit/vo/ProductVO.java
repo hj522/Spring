@@ -10,6 +10,8 @@ public class ProductVO {
 	private int unitsInStock;	// 재고수
 	private String condition;	// 신상품 or 중고품 or 재생품
 	
+	private String filename;
+	
 	public ProductVO() {
 		
 	}
@@ -77,11 +79,20 @@ public class ProductVO {
 	public void setCondition(String condition) {
 		this.condition = condition;
 	}
+	
+
+	public String getFilename() {
+		return filename;
+	}
+
+	public void setFilename(String filename) {
+		this.filename = filename;
+	}
 
 	@Override
 	public String toString() {
 		return "ProductVO [productId=" + productId + ", pname=" + pname + ", unitPrice=" + unitPrice + ", description="
 				+ description + ", manufacturer=" + manufacturer + ", category=" + category + ", unitsInStock="
-				+ unitsInStock + ", condition=" + condition + "]";
+				+ unitsInStock + ", condition=" + condition + ", filename=" + filename + "]";
 	}
 }

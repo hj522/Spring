@@ -1,7 +1,17 @@
 package kr.or.ddit.service;
 
+import java.util.List;
+
 import kr.or.ddit.vo.ProductVO;
 
 public interface ProductService {
 	public int insert(ProductVO productVO);
+
+	public List<ProductVO> list();	// 상품 목록
+
+	public ProductVO selectDetail(ProductVO productVO); // 특정 상품 상세
+	
+	public int update(ProductVO productVO); // 상품 수정
+	
+	public int delete(String productId); // 상품 삭제
 }

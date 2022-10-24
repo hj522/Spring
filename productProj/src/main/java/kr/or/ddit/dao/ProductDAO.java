@@ -1,5 +1,7 @@
 package kr.or.ddit.dao;
 
+import java.util.List;
+
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -14,5 +16,25 @@ public class ProductDAO {
 	
 	public int insert(ProductVO productVO) {
 		return this.sqlSessionTemplate.insert("product.insert",productVO);
+	}
+	
+	// 상품 목록
+	public List<ProductVO> list() {
+		return this.sqlSessionTemplate.selectList("product.list");
+	}
+
+	// 상품 상세 보기
+	public ProductVO selectDetail(ProductVO productVO) {
+		return this.sqlSessionTemplate.selectOne("product.select_detail", productVO);
+	}
+
+	// 상품 수정
+	public int update(ProductVO productVO) {
+		return this.sqlSessionTemplate.update("product.update", productVO);
+	}
+
+	// 상품 삭제
+	public int delete(String productId) {
+		return this.sqlSessionTemplate.delete("product.delete", productId);
 	}
 }

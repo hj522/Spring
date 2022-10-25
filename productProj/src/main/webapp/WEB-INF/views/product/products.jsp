@@ -22,6 +22,14 @@
 		<!-- container : 이 안에 내용있다 -->
 		<div class="container">
 			<h1 class="display-3">상품 목록</h1>
+			<br>
+			<p>
+				<form>
+					<input type="text" placeholder="검색어를 입력하세요" name="keyword" value="${param.keyword}" class="form-control d-inline" style="width:300px" />
+					 <input type="submit" value="검색" class="btn btn-outline-dark" />
+					<br><br><input type="button" class="btn btn-outline-primary" value="상품등록" onclick="javascript:location.href='create'" />
+				</form>
+			</p>
 		</div>
 	</div>
 	<!-- container : 이 안에 내용있다 -->
@@ -32,22 +40,16 @@
 			<!-- 열별 처리 -->
 			<div class="col-md-4">
 				<!-- /images/P1234.jpg -->
-<%-- 				<img src="/images/${product.filename}" --%>
-<%-- 				style="width:100%;" alt="${product.pname}" title="${product.pname}" /> --%>
+ 				<img src="resources/images/${product.filename}"
+ 				style="width:100%;" alt="${product.pname}" title="${product.pname}" />
 				<h3>${product.pname}</h3>
 				<p>${product.description}</p>
 				<p>${product.unitPrice}원</p>	
 				<p><a href="detail?productId=${product.productId}"
 					class="btn btn-secondary" role="button">
-					상세정보&raquo;></a></p>			
+					상세정보&raquo;</a></p>			
 			</div>
 			</c:forEach>
-		</div>
-		<div class="form-group row">
-			<div class="col-sm-offset-2 col-sm-10">
-				<input type="button" class="btn btn-primary" value="상품등록"
-				onclick="javascript:location.href='create'" />
-			</div>
 		</div>
 	</div>
 	<!-- --------------------상품목록 끝-------------------- -->

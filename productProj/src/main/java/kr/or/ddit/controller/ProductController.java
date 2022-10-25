@@ -7,6 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import kr.or.ddit.service.ProductService;
@@ -48,16 +49,21 @@ public class ProductController {
 	
 	// 상품 목록
 	@RequestMapping(value="/products",method=RequestMethod.GET)
-	public ModelAndView list(ModelAndView mav) {
+	public ModelAndView list(ModelAndView mav, @RequestParam(value="keyword", required=false) String keyword) {
 		
 		// Model
-		List<ProductVO> data = this.productService.list();
-		mav.addObject("data", data);
-		// View
-		mav.setViewName("product/products");
-		return mav;
+		List<ProductVO> list = this.productService.list(keyword);
 		
+		for(ProductVO vo :list) {
+			log.info("vo: " + vo.toString());
+		}
+		
+		mav.setViewName("product/products");
+		mav.addObject("data", list);
+
+		return mav;
 	}
+	
 	
 	@RequestMapping(value="/detail", method=RequestMethod.GET)
 	public ModelAndView detail(ModelAndView mav, @ModelAttribute ProductVO productVO) {
@@ -69,6 +75,21 @@ public class ProductController {
 		mav.setViewName("product/detail");
 		mav.addObject("data", data);
 		mav.addObject("productId", data.getProductId());
+		
+		return mav;
+	}
+	
+	public ModelAndView detail(ModelAndView mav, @RequestParam(value="keyword", required=false) String keyword) {
+		
+		List<ProductVO> list = this.productService.list(keyword);
+		
+		for(ProductVO vo : list) {
+			log.info("vo: " + vo.toString());
+		}
+		
+		// forwarding
+		mav.setViewName("product/list");
+		mav.addObject("data", list);
 		
 		return mav;
 	}
@@ -99,13 +120,13 @@ public class ProductController {
 	}
 	
 	@RequestMapping(value="/delete",method=RequestMethod.POST)
-	public ModelAndView delete(ModelAndView mav, int productId) {
+	public ModelAndView delete(ModelAndView mav, String productId) {
 		log.info("productId : " + productId);
 		
 		int result = this.productService.delete(productId);
 		
 		if(result>0) {
-			mav.setViewName("redirect:/list");
+			mav.setViewName("redirect:/products");
 		} else {
 			mav.setViewName("redirect:/detail?productId=" + productId);
 		}

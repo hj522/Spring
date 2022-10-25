@@ -7,20 +7,25 @@
 <!--   		<selectKey order="BEFORE" resultType="integer" keyProperty="productId"> -->
 <!--   			SELECT NVL(MAX(PRODUCT_ID),0)+1 FROM PRODUCT -->
 <!--   		</selectKey> -->
-  		INSERT INTO PRODUCT(PRODUCT_ID, PNAME, UNIT_PRICE, DESCRIPTION, MANUFACTURER, CATEGORY, UNITS_IN_STOCK, CONDITION)
-		VALUES(#{productId},#{pname},#{unitPrice},#{description},#{manufacturer},#{category},#{unitsInStock},#{condition})
+  		INSERT INTO PRODUCT(PRODUCT_ID, PNAME, UNIT_PRICE, DESCRIPTION, MANUFACTURER, CATEGORY, UNITS_IN_STOCK, CONDITION, FILENAME)
+		VALUES(#{productId},#{pname},#{unitPrice},#{description},#{manufacturer},#{category},#{unitsInStock},#{condition},#{filename})
   	</insert>
   	
   	
-  	<!-- 상품 목록 -->
-  	<select id="list" resultType="productVO">
-  		SELECT PRODUCT_ID, PNAME, UNIT_PRICE, DESCRIPTION, MANUFACTURER, CATEGORY, UNITS_IN_STOCK, CONDITION
+  	<!-- 검색 -->
+  	<select id="list" resultType="productVO" parameterType="String">
+		SELECT PRODUCT_ID, PNAME, UNIT_PRICE, DESCRIPTION, MANUFACTURER, CATEGORY, UNITS_IN_STOCK, CONDITION, FILENAME
 		FROM PRODUCT
-		ORDER BY PRODUCT_ID DESC
-  	</select>
+		WHERE 1 = 1
+		<if test="keyWord!=null and keyWord!=''">
+			AND (PNAME LIKE '%' || #{keyWord} || '%'
+			OR CATEGORY LIKE '%' || #{keyWord} || '%')
+		</if>
+		ORDER BY PNAME DESC
+	</select>
   	
   	<select id="select_detail" parameterType="productVO" resultType="productVO">
-  		SELECT PRODUCT_ID, PNAME, UNIT_PRICE, DESCRIPTION, MANUFACTURER, CATEGORY, UNITS_IN_STOCK, CONDITION
+  		SELECT PRODUCT_ID, PNAME, UNIT_PRICE, DESCRIPTION, MANUFACTURER, CATEGORY, UNITS_IN_STOCK, CONDITION, FILENAME
 		FROM PRODUCT
 		WHERE PRODUCT_ID = #{productId}
   	</select>

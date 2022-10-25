@@ -22,8 +22,8 @@ public class ProductServiceImpl implements ProductService {
 	
 	// 상품 목록
 	@Override
-	public List<ProductVO> list() {
-		return this.productDao.list();
+	public List<ProductVO> list(String keyword) {
+		return this.productDao.list(keyword);
 	}
 	
 	// 상품 상세

@@ -19,8 +19,8 @@ public class ProductDAO {
 	}
 	
 	// 상품 목록
-	public List<ProductVO> list() {
-		return this.sqlSessionTemplate.selectList("product.list");
+	public List<ProductVO> list(String keyword) {
+		return this.sqlSessionTemplate.selectList("product.list", keyword);
 	}
 
 	// 상품 상세 보기

@@ -38,11 +38,11 @@ $(function() {
 	<div class="container">
 	<div class="row">
 		<div class="col-md-5">
-<%-- <!-- <img src="/BookMarket/resources/images/<%=product.getFilename()%>" style="width:50%"/> -->            --%>
-        	</div>
+ 		<img src="resources/images/${data.filename}" style="width:70%;"/>
+        </div>
 		<div class="col-md-10">
-			<h3>${product.pname}</h3>
-			<p>${product.description}</p>
+			<h3>${data.pname}</h3>
+			<p>${data.description}</p>
 			<p>
 				<b>상품코드: </b>
 				<span class="badge badge-danger">${data.productId}</span>
@@ -52,15 +52,14 @@ $(function() {
 			<p><b>재고 수</b>: ${data.unitsInStock}</p>
 			<p><b>가격</b>: <fmt:formatNumber type="number" maxFractionDigits="3" value="${data.unitPrice}" /></p>
 			<p><b>상태</b>: ${data.condition}</p> 
-			<p>
-				<a href="/update?productId=${productId}">수정폼</a>
-			<!-- /delete?bookId=1 -->
-			<form action="/delete" method="post">
-				<input type="hidden" name="productId" value="${productId}" />
-				<input type="submit" value="삭제" />
-			</form>
-			<p><a href="/products">목록으로 이동</a></p>
-			</p>
+			<div class="form-group row">
+				<a href="/update?productId=${productId}" class="btn btn-warning" style="margin-right:5px">수정&raquo;</a>
+				<form action="/delete" method="post">
+					<input type="hidden" name="productId" value="${productId}" />
+					<input type="submit" value="삭제&raquo;" class="btn btn-danger" style="margin-right:5px" />
+				</form>
+				<a href="/products" class="btn btn-primary">목록&raquo;</a>
+			</div>
 		</div>
 	</div>
 </div>

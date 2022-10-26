@@ -12,6 +12,8 @@ public class ProductVO {
 	
 	private String filename;
 	
+	private int quantity;
+	
 	public ProductVO() {
 		
 	}
@@ -89,10 +91,19 @@ public class ProductVO {
 		this.filename = filename;
 	}
 
+	public int getQuantity() {
+		return quantity;
+	}
+
+	public void setQuantity(int quantity) {
+		this.quantity = quantity;
+	}
+
 	@Override
 	public String toString() {
 		return "ProductVO [productId=" + productId + ", pname=" + pname + ", unitPrice=" + unitPrice + ", description="
 				+ description + ", manufacturer=" + manufacturer + ", category=" + category + ", unitsInStock="
-				+ unitsInStock + ", condition=" + condition + ", filename=" + filename + "]";
+				+ unitsInStock + ", condition=" + condition + ", filename=" + filename + ", quantity=" + quantity + "]";
 	}
+
 }

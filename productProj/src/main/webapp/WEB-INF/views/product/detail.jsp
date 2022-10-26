@@ -11,15 +11,26 @@
 <head>
 <link rel="stylesheet" href="/resources/css/bootstrap.min.css" />
 <script type="text/javascript" src="/resources/js/jquery.min.js"></script>
-<title>책 상세</title>
+<title>상품 상세</title>
 <script type="text/javascript">
 // jQuery 시작! 부릉부릉=33
-$(function() {
-	$("button").on("click",function(){
-		// BookController의 /list URI에 매핑된 메소드를 실행
-		location.href="/products";
-	})
-});
+// $(function() {
+// 	$("button").on("click",function(){
+// 		// BookController의 /list URI에 매핑된 메소드를 실행
+// 		location.href="/products";
+// 	})
+// });
+
+function addToCart() {
+	let result = confirm("상품을 장바구니에 추가하시겠습니까?");
+	
+	if(result) {
+		document.addForm.submit();
+	} else {
+		document.addForm.reset();
+	}
+}
+
 </script>
 </head>
 <body>
@@ -38,7 +49,7 @@ $(function() {
 	<div class="container">
 	<div class="row">
 		<div class="col-md-5">
- 		<img src="resources/images/${data.filename}" style="width:70%;"/>
+ 		<img src="resources/images/${data.filename}" style="width:60%;"/>
         </div>
 		<div class="col-md-10">
 			<h3>${data.pname}</h3>
@@ -53,12 +64,20 @@ $(function() {
 			<p><b>가격</b>: <fmt:formatNumber type="number" maxFractionDigits="3" value="${data.unitPrice}" /></p>
 			<p><b>상태</b>: ${data.condition}</p> 
 			<div class="form-group row">
-				<a href="/update?productId=${productId}" class="btn btn-warning" style="margin-right:5px">수정&raquo;</a>
 				<form action="/delete" method="post">
 					<input type="hidden" name="productId" value="${productId}" />
-					<input type="submit" value="삭제&raquo;" class="btn btn-danger" style="margin-right:5px" />
+					<input type="submit" value="삭제&raquo;" class="btn btn-danger btn-sm" style="margin-right:3px"/>
 				</form>
-				<a href="/products" class="btn btn-primary">목록&raquo;</a>
+				<p>
+				<!-- /addCart?productId=P1234 -->
+				<form name="addForm" action="/addCart?id=${data.productId}" method="post">
+					<input type="hidden" name="productId" value="${data.productId}" />
+					<a href="/update?productId=${productId}" class="btn btn-warning btn-sm" >수정&raquo;</a>
+					<a href="/products" class="btn btn-secondary btn-sm" >목록&raquo;</a>
+					<a href="#" class="btn btn-info btn-sm" onclick="addToCart()">주문하기&raquo;</a>
+					<a href="/cart" class="btn btn-success btn-sm">장바구니 &raquo;</a>
+				</form>
+				</p>
 			</div>
 		</div>
 	</div>

@@ -1,5 +1,9 @@
 package kr.or.ddit.vo;
 
+import java.util.Arrays;
+
+import org.springframework.web.multipart.MultipartFile;
+
 public class ProductVO {
 	private String productId;	// 상품 아이디(product테이블의 product_id 컬럼)
 	private String pname;		// 상품명
@@ -13,6 +17,8 @@ public class ProductVO {
 	private String filename;
 	
 	private int quantity;
+	
+	private MultipartFile[] productImage;
 	
 	public ProductVO() {
 		
@@ -98,12 +104,22 @@ public class ProductVO {
 	public void setQuantity(int quantity) {
 		this.quantity = quantity;
 	}
+	
+
+	public MultipartFile[] getProductImage() {
+		return productImage;
+	}
+
+	public void setProductImage(MultipartFile[] productImage) {
+		this.productImage = productImage;
+	}
 
 	@Override
 	public String toString() {
 		return "ProductVO [productId=" + productId + ", pname=" + pname + ", unitPrice=" + unitPrice + ", description="
 				+ description + ", manufacturer=" + manufacturer + ", category=" + category + ", unitsInStock="
-				+ unitsInStock + ", condition=" + condition + ", filename=" + filename + ", quantity=" + quantity + "]";
+				+ unitsInStock + ", condition=" + condition + ", filename=" + filename + ", quantity=" + quantity
+				+ ", productImage=" + Arrays.toString(productImage) + "]";
 	}
 
 }

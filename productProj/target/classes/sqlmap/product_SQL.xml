@@ -7,8 +7,8 @@
 <!--   		<selectKey order="BEFORE" resultType="integer" keyProperty="productId"> -->
 <!--   			SELECT NVL(MAX(PRODUCT_ID),0)+1 FROM PRODUCT -->
 <!--   		</selectKey> -->
-  		INSERT INTO PRODUCT(PRODUCT_ID, PNAME, UNIT_PRICE, DESCRIPTION, MANUFACTURER, CATEGORY, UNITS_IN_STOCK, CONDITION, FILENAME)
-		VALUES(#{productId},#{pname},#{unitPrice},#{description},#{manufacturer},#{category},#{unitsInStock},#{condition},#{filename})
+  		INSERT INTO PRODUCT(PRODUCT_ID, PNAME, UNIT_PRICE, DESCRIPTION, MANUFACTURER, CATEGORY, UNITS_IN_STOCK, CONDITION)
+		VALUES(#{productId},#{pname},#{unitPrice},#{description},#{manufacturer},#{category},#{unitsInStock},#{condition})
   	</insert>
   	
   	
@@ -40,4 +40,28 @@
   		DELETE FROM PRODUCT
   		WHERE PRODUCT_ID = #{productId}
   	</delete>
+  	
+  	<!-- CART테이블에 insert
+  		드루와: CartVO
+  		가즈아: 생략(insert/update/delete는 resultType="int"를 생략)
+  	-->
+  	<insert id="insertCart">
+	  	INSERT INTO CART(CART_ID, NAME, SHIPPING_DATE, ADDRESS_NAME, ADDRESS_DETAIL, REGIST_DT, COUNTRY, ZIP_CODE)
+		VALUES(#{cartId},#{name},#{shippingDate},#{addressName},#{addressDetail},sysdate,#{country},#{zipCode})
+  	</insert>
+  	
+  	<!-- ATTACH 테이블에 insert
+  	드루와: List<AttachVO>
+  	가즈아: 생략
+  	INSERT ALL INTO ATTACH VALUES(1,'P1238','1',2,'jpeg',sysdate)
+	INTO ATTACH VALUES(2,'P1238','2',2,'jpeg',sysdate)
+	INTO ATTACH VALUES(3,'P1238','3',2,'jpeg',sysdate)
+	SELECT * FROM SYS.DUAL;
+  	 -->
+  	 <update id="insertAttach" parameterType="java.util.List">
+  	 	<foreach collection="list" item="attachVO" open="INSERT ALL " close="SELECT * FROM SYS.DUAL" separator=" ">
+  	 	INTO ATTACH VALUES(#{attachVO.seq),#{attachVO.tid},#{attachVO.attachName},#{attachVO.attachSize},#{attachVO.attachType},sysdate)
+  	 	</foreach>
+  	 </update>
+  	 
   </mapper>

@@ -30,10 +30,10 @@
 			<table width="100%">
 				<tr>
 					<td align="left">
-						<a href="deleteCart.cartId=<%=cartId%>"	class="btn btn-danger">모두 삭제</a>
+						<a href="deleteCart?cartId=<%=cartId%>"	class="btn btn-danger">모두 삭제</a>
 					</td>
 					<td align="right">
-						<a href="shippingInfo.cartId=<%=cartId%>" class="btn btn-success">주문하기</a>
+						<a href="shippingInfo?cartId=<%=cartId%>" class="btn btn-success">주문하기</a>
 					</td>
 				</tr>
 			</table>
@@ -78,7 +78,7 @@
 					<td><%=p.getQuantity()%></td>
 					<td><fmt:formatNumber value="<%=totalBig%>" pattern="#,###"/></td>
 					<td>
-						<a href="removeCart.jsp?id=<%=p.getProductId()%>" class="badge badge-danger">삭제</a>
+						<a href="removeCart?productId=<%=p.getProductId()%>" class="badge badge-danger">삭제</a>
 					</td>
 				</tr>
 				<%

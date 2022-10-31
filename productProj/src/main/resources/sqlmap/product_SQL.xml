@@ -3,10 +3,16 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
   
   <mapper namespace="product">
-  	<insert id="insert" parameterType="kr.or.ddit.vo.ProductVO">
+  	<insert id="insert" parameterType="ProductVO">
 <!--   		<selectKey order="BEFORE" resultType="integer" keyProperty="productId"> -->
 <!--   			SELECT NVL(MAX(PRODUCT_ID),0)+1 FROM PRODUCT -->
 <!--   		</selectKey> -->
+		<!-- BEFORE: insert문을 실행하기 전에 수행 /	AFTER: insert문을 실행한 후에 수행 -->
+		<selectKey order="BEFORE" keyProperty="productId" resultType="String">
+			SELECT SUBSTR(MAX(PRODUCT_ID),0,1)
+				|| TRIM((SUBSTR(MAX(PRODUCT_ID),2)+1))
+			FROM   PRODUCT
+		</selectKey>
   		INSERT INTO PRODUCT(PRODUCT_ID, PNAME, UNIT_PRICE, DESCRIPTION, MANUFACTURER, CATEGORY, UNITS_IN_STOCK, CONDITION)
 		VALUES(#{productId},#{pname},#{unitPrice},#{description},#{manufacturer},#{category},#{unitsInStock},#{condition})
   	</insert>
@@ -14,8 +20,10 @@
   	
   	<!-- 검색 -->
   	<select id="list" resultType="productVO" parameterType="String">
-		SELECT PRODUCT_ID, PNAME, UNIT_PRICE, DESCRIPTION, MANUFACTURER, CATEGORY, UNITS_IN_STOCK, CONDITION, FILENAME
-		FROM PRODUCT
+		SELECT P.PRODUCT_ID, P.PNAME, P.UNIT_PRICE, P.DESCRIPTION, P.MANUFACTURER, P.CATEGORY, P.UNITS_IN_STOCK, P.CONDITION, (SELECT A.ATTACH_NAME FROM ATTACH A
+		        WHERE  P.PRODUCT_ID = A.TID
+		        AND    A.SEQ = 1) FILENAME
+		FROM PRODUCT P
 		WHERE 1 = 1
 		<if test="keyWord!=null and keyWord!=''">
 			AND (PNAME LIKE '%' || #{keyWord} || '%'
@@ -25,9 +33,19 @@
 	</select>
   	
   	<select id="select_detail" parameterType="productVO" resultType="productVO">
-  		SELECT PRODUCT_ID, PNAME, UNIT_PRICE, DESCRIPTION, MANUFACTURER, CATEGORY, UNITS_IN_STOCK, CONDITION, FILENAME
-		FROM PRODUCT
-		WHERE PRODUCT_ID = #{productId}
+		SELECT P.PRODUCT_ID
+		     , P.PNAME
+		     , P.UNIT_PRICE
+		     , P.DESCRIPTION
+		     , P.MANUFACTURER
+		     , P.CATEGORY
+		     , P.UNITS_IN_STOCK
+		     , P.CONDITION
+		     , (SELECT A.ATTACH_NAME FROM ATTACH A
+		        WHERE  P.PRODUCT_ID = A.TID
+		        AND    A.SEQ = 1) FILENAME
+		FROM   PRODUCT P
+		WHERE  P.PRODUCT_ID = #{productId}
   	</select>
   	
   	<update id="update" parameterType="productVO">
@@ -51,8 +69,11 @@
   	</insert>
   	
   	<!-- ATTACH 테이블에 insert
-  	드루와: List<AttachVO>
-  	가즈아: 생략
+  	*드루와: List<AttachVO>
+  	AttachVO [seq=1, tid=P1241, attachName=/2022/10/31/db74ec62-bf45-4371-a887-5bf99ee9ca8b_dh.jpg, attachSize=48183, attachType=image/jpeg, registDate=null]
+  	AttachVO [seq=2, tid=P1241, attachName=/2022/10/31/aa2d120d-733c-4b98-9d8f-9ad6d3969c43_dh1.jpg, attachSize=48183, attachType=image/jpeg, registDate=null]
+	AttachVO [seq=3, tid=P1241, attachName=/2022/10/31/4fa9f109-fa69-47f1-aedb-67c9b64b1a8d_dh2.jpg, attachSize=42596, attachType=image/jpeg, registDate=null]
+  	*가즈아: 생략
   	INSERT ALL INTO ATTACH VALUES(1,'P1238','1',2,'jpeg',sysdate)
 	INTO ATTACH VALUES(2,'P1238','2',2,'jpeg',sysdate)
 	INTO ATTACH VALUES(3,'P1238','3',2,'jpeg',sysdate)
@@ -60,8 +81,15 @@
   	 -->
   	 <update id="insertAttach" parameterType="java.util.List">
   	 	<foreach collection="list" item="attachVO" open="INSERT ALL " close="SELECT * FROM SYS.DUAL" separator=" ">
-  	 	INTO ATTACH VALUES(#{attachVO.seq),#{attachVO.tid},#{attachVO.attachName},#{attachVO.attachSize},#{attachVO.attachType},sysdate)
+	 		INTO ATTACH VALUES(#{attachVO.seq},#{attachVO.tid},#{attachVO.attachName}
+	 			,#{attachVO.attachSize},#{attachVO.attachType},sysdate)
   	 	</foreach>
   	 </update>
   	 
+	<!-- PRODUCT테이블의 기본키 자동 생성 -->
+    <select id="getProductId" resultType="String">
+       SELECT SUBSTR(MAX(PRODUCT_ID),0,1)
+           || TRIM((SUBSTR(MAX(PRODUCT_ID),2)+1)) PRODUCT_ID
+      FROM   PRODUCT
+    </select>
   </mapper>

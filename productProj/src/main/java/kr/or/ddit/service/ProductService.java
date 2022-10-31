@@ -2,6 +2,7 @@ package kr.or.ddit.service;
 
 import java.util.List;
 
+import kr.or.ddit.vo.AttachVO;
 import kr.or.ddit.vo.CartVO;
 import kr.or.ddit.vo.ProductVO;
 
@@ -17,5 +18,9 @@ public interface ProductService {
 	public int delete(String productId); // 상품 삭제
 
 	public int thankCustomer(CartVO cartVO);	// CART 및 CART_DET 테이블에 insert
+ 
+	public int insertAttach(List<AttachVO> attachVOList);	// ATTACH 테이블에 다중 insert
+
+	public String getProductId();	// PRODUCT테이블의 기본키 자동 생성
 
 }

@@ -54,10 +54,23 @@ $(function() {
 		});
 	}
 	// 이미지 미리보기 끝 /////////////////////////////////////////
+	
+	// PRODUCT 테이블의 PRODUCT_ID 자동생성
+	// 아작났어유.. 피씨다탔어
+	$.ajax({
+		url:"/getProductId",
+		type:"post",
+		success:function(result) {
+			console.log("result: " + JSON.stringify(result));
+			console.log("result.productId: " + result.productId);
+			$("#productId").val(result.productId);
+		}
+	});
 });
 </script>
 </head>
 <body>
+	<jsp:include page="menu.jsp" />
 	<div class="jumbotron">
 		<!-- 내용 드루와 -->
 		<div class="container">
@@ -70,7 +83,7 @@ $(function() {
 		<div class="form-group row">
 			<label class="col-sm-2">상품 코드</label>
 			<div class="col-sm-3">
-				<input type="text" id="productId" name="productId" class="form-control" required/>
+				<input type="text" id="productId" name="productId" class="form-control" readonly="readonly" required/>
 			</div>
 		</div>
 		<div class="form-group row">
@@ -135,5 +148,6 @@ $(function() {
 		</div>
 	</form>
 	</div>
+	<jsp:include page="footer.jsp" />
 </body>
 </html>

@@ -49,4 +49,11 @@ public class ProductDAO {
 	public int insertAttach(List<AttachVO> attachVOList) {
 		return this.sqlSessionTemplate.insert("product.insertAttach",attachVOList);
 	}
+	
+	// PRODUCT테이블의 기본키 자동 생성
+	public String getProductId() {
+		// 1행 select, 파라미터 없음
+		return this.sqlSessionTemplate.selectOne("product.getProductId");
+	}
+	
 }

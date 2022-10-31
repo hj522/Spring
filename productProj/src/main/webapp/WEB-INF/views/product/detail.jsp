@@ -49,7 +49,7 @@ function addToCart() {
 	<div class="container">
 	<div class="row">
 		<div class="col-md-5">
- 		<img src="resources/images/${data.filename}" style="width:60%;"/>
+ 		<img src="resources/upload${data.filename}" style="width:60%;"/>
         </div>
 		<div class="col-md-10">
 			<h3>${data.pname}</h3>

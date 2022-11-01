@@ -6,7 +6,7 @@
 <script type="text/javascript" src="/resources/js/jquery.min.js"></script>
 <title>Headers 매핑</title>
 <script type="text/javascript">
-// document가 로딩이 완료 되면 실팽
+// document가 로딩이 완료 되면 실행
 $(function(){
 	$("button").on("click",function(){
 		let boardNoVal = "7";

@@ -3,19 +3,28 @@ package kr.or.ddit.Controller;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
+import org.mybatis.spring.SqlSessionTemplate;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import kr.or.ddit.service.HwMemberService;
+import kr.or.ddit.util.ArticlePage;
 import kr.or.ddit.vo.BookVO;
+import kr.or.ddit.vo.HwMemberVO;
 import lombok.extern.slf4j.Slf4j;
 
 // 프링아 이거 자바빈 객체로 관리해줘
@@ -24,6 +33,9 @@ import lombok.extern.slf4j.Slf4j;
 @Controller
 public class BoardController {
 
+	@Autowired
+	HwMemberService HwMemberService;
+	
 	/*
 		RequestMapping의 value속성에 요청 경로를 설정
 		- 요청 경로는 반드시 설정해야 하는 필수 정보! 생략 불가능
@@ -221,4 +233,73 @@ public class BoardController {
 		
 		return bookVOList;
 	}
+	
+	
+	/////////////////////////////////////////////// HW_MEMBER TABLE 숙제(회원 테이블 만들기)
+	
+	
+	// 요청 URI: /board/list?currentPage=2
+	// 요청 파라미터: currentPage=2
+   @GetMapping("/list")
+   public String boardList(Model model, @RequestParam(defaultValue="1", required=false) int currentPage, @RequestParam Map<String, String> map) {
+	   
+	   log.info("currentPage : " + currentPage);
+	   
+	   String cPage = map.get("currentPage"); // /board/list 이렇게 요청되었을 경우 처리
+	   String show = map.get("show");
+	   String keyword = map.get("keyword");
+	   
+	   if(cPage==null) {
+		   map.put("currentPage","1");
+	   }
+	   if(show==null) {
+		   map.put("show", "10");
+	   }
+	   if(keyword==null) {
+		   map.put("keyword", "");
+	   }
+	   
+	   log.info("map: " + map);	// map: {currentPage=14, show=25, keyword=개똥}
+	   
+	   
+	   List<HwMemberVO> memList = HwMemberService.list(map);
+	   
+	   // HW_MEMBER 전체 행의 수 구하기
+	   int total = this.HwMemberService.getTotal(map);
+	   
+	   // 한 화면에 보여질 행 수
+	   int size = Integer.parseInt(map.get("show"));
+	   
+	   for(HwMemberVO mv : memList) {
+		   System.out.println(mv);
+	   }
+	   
+	   // forwarding
+	   // (전체 글 수, 현재 페이지, 한 화면에 보여질 행 수, select 결과 list)
+	   model.addAttribute("list", new ArticlePage<HwMemberVO>(total, currentPage, size, memList));	// generic처리
+	   
+	   return "board/list";
+   }
+   
+	@RequestMapping(value="/insertMem", method=RequestMethod.GET)
+	public ModelAndView insertMem() {
+		ModelAndView mav = new ModelAndView();
+		mav.setViewName("board/insertMem");
+		return mav;
+	}
+	
+	
+	@RequestMapping(value="/insertMem", method=RequestMethod.POST)
+	public ModelAndView insertMemPost(ModelAndView mav, @ModelAttribute HwMemberVO hwMemVO) {
+		int result = this.HwMemberService.insert(hwMemVO);
+		
+		if(result < 1) {
+			mav.setViewName("redirect:/board/insertMem");
+		} else {
+			mav.setViewName("redirect:/board/list");
+		}
+		return mav;
+	}
+	
+	   
 }

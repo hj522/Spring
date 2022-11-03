@@ -23,13 +23,13 @@ import net.coobird.thumbnailator.Thumbnailator;
 @Controller
 public class FileUploadUtil {
 	
-	private String uploadFolder = "C:\\eclipse-jee-2020-06-R-win32-x86_64\\workspace\\productProj\\src\\main\\webapp\\resources\\upload";
+	private String uploadFolder = "C:\\eclipse-jee-2020-06-R-win32-x86_64\\workspace\\springProj\\src\\main\\webapp\\resources\\upload";
 
 	// DI(의존성 주입)
 	@Autowired
 	BookService bookService;
 	
-	// 파일 업로드 실행
+	// 파일 업로드 실행 + DB처리
 	public int fileUploadAction(MultipartFile[] multipartFiles, String tid) {
 		log.info("파일 업로드를 수행합니다.");
 		

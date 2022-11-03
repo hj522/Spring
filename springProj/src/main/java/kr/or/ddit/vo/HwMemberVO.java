@@ -1,6 +1,10 @@
 package kr.or.ddit.vo;
 
+import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
+
+import org.springframework.web.multipart.MultipartFile;
 
 public class HwMemberVO {
 	
@@ -23,6 +27,16 @@ public class HwMemberVO {
 	private Date memMemorialday;
 	private int memMileage;
 	private String memDelete;
+	
+	// HW_MEMBER테이블에 없어도 사용 가능
+	// register06 파일 업로드 테스트용
+	private String userId;
+	private String password;
+	private MultipartFile picture;
+	private MultipartFile picture2;
+	private List<MultipartFile> pictureList; // ..name="pictureList[0]"
+	private MultipartFile[] pictureArray; // ..name="pictureArray" multiple
+
 	
 	public HwMemberVO() {
 	}
@@ -179,6 +193,54 @@ public class HwMemberVO {
 		this.memDelete = memDelete;
 	}
 
+	public String getUserId() {
+		return userId;
+	}
+
+	public void setUserId(String userId) {
+		this.userId = userId;
+	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
+	public MultipartFile getPicture() {
+		return picture;
+	}
+
+	public void setPicture(MultipartFile picture) {
+		this.picture = picture;
+	}
+
+	public MultipartFile getPicture2() {
+		return picture2;
+	}
+
+	public void setPicture2(MultipartFile picture2) {
+		this.picture2 = picture2;
+	}
+
+	public List<MultipartFile> getPictureList() {
+		return pictureList;
+	}
+
+	public void setPictureList(List<MultipartFile> pictureList) {
+		this.pictureList = pictureList;
+	}
+
+	public MultipartFile[] getPictureArray() {
+		return pictureArray;
+	}
+
+	public void setPictureArray(MultipartFile[] pictureArray) {
+		this.pictureArray = pictureArray;
+	}
+
 	@Override
 	public String toString() {
 		return "HwMemberVO [memId=" + memId + ", memPass=" + memPass + ", memName=" + memName + ", memRegno1="
@@ -186,7 +248,9 @@ public class HwMemberVO {
 				+ memAdd1 + ", memAdd2=" + memAdd2 + ", memHometel=" + memHometel + ", memComtel=" + memComtel
 				+ ", memHp=" + memHp + ", memMail=" + memMail + ", memJob=" + memJob + ", memLike=" + memLike
 				+ ", memMemorial=" + memMemorial + ", memMemorialday=" + memMemorialday + ", memMileage=" + memMileage
-				+ ", memDelete=" + memDelete + "]";
+				+ ", memDelete=" + memDelete + ", userId=" + userId + ", password=" + password + ", picture=" + picture
+				+ ", picture2=" + picture2 + ", pictureList=" + pictureList + ", pictureArray="
+				+ Arrays.toString(pictureArray) + "]";
 	}
-	
+
 }

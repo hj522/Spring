@@ -14,8 +14,10 @@ public interface HwMemberService {
 	// 메소드 시그니처
 	public List<HwMemberVO> list(Map<String, String> map);
 
-	public int insert(HwMemberVO hwMemVO);
+	public int insert(HwMemberVO hwMemberVO);
 
 	public int getTotal(Map<String, String> map); 	// HW_MEMBER 전체 행의 수 구하기
+
+	public int chkDup(String memId);	// 아이디 중복 체크
 
 }

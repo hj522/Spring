@@ -17,7 +17,7 @@
 	<select id="selectMember" parameterType="hashMap" resultType="HwMemberVO" >
 		WITH T AS(
 			SELECT ROW_NUMBER() OVER (ORDER BY MEM_ID ASC) RNUM
-			        , MEM_ID, MEM_NAME, MEM_JOB, MEM_LIKE 
+			        , MEM_ID, MEM_NAME, MEM_JOB, MEM_LIKE, MEM_HP 
 			FROM HW_MEMBER
 			WHERE 1 = 1
 			<if test="keyword!=null and keyword!=''">
@@ -32,8 +32,8 @@
 	</select>
 	
    <insert id="insertMember" parameterType="HwMemberVO">
-   		INSERT INTO HW_MEMBER(MEM_ID, MEM_NAME, MEM_JOB, MEM_LIKE)
-   		VALUES(#{memId}, #{memName}, #{memJob}, #{memLike})
+   		INSERT INTO HW_MEMBER(MEM_ID, MEM_NAME, MEM_JOB, MEM_LIKE, MEM_HP)
+   		VALUES(#{memId}, #{memName}, #{memJob}, #{memLike}, #{memHp})
    </insert>
    
 	<!-- HW_MEMBER 전체 행의 수 구하기 -->
@@ -44,5 +44,11 @@
 		<if test="keyword!=null and keyword!=''">
 			<include refid="where"></include>
 		</if>
+   </select>
+   
+   <!-- 아이디 중복 체크 -->
+   <!-- parameterType은 String, hashMap, HwMemberVO -->
+   <select id="chkDup" parameterType="String" resultType="int">
+		SELECT COUNT(*) FROM HW_MEMBER WHERE MEM_ID = #{memId}
    </select>
 </mapper>

@@ -24,13 +24,19 @@ public class HwMemberDAO {
 		return this.sqlSessionTemplate.selectList("hwMember.selectMember", map);
 	}
 
-	public int insert(HwMemberVO hwMemVO) {
-		return this.sqlSessionTemplate.insert("hwMember.insertMember", hwMemVO);
+	public int insert(HwMemberVO hwMemberVO) {
+		return this.sqlSessionTemplate.insert("hwMember.insertMember", hwMemberVO);
 	}
 	
 	// HW_MEMBER 전체 행의 수 구하기
 //	   <select id="getTotal" resultType="int">
 	public int getTotal(Map<String, String> map) {
 		return this.sqlSessionTemplate.selectOne("hwMember.getTotal", map);
+	}
+	
+	// 아이디 중복체크
+	// <select id="chkDup" parameterType="String">
+	public int chkDup(String memId) {
+		return this.sqlSessionTemplate.selectOne("hwMember.chkDup", memId);
 	}
 }

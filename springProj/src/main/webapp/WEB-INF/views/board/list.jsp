@@ -18,7 +18,7 @@ $(function(){
 </head>
 <body>
 	<div class="card-header py-3">
-		<h6 class="m-0 font-weight-bold text-primary">HW_MEMBER TABLE</h6>
+		<h6 class="m-0 font-weight-bold text-primary">회원 테이블</h6>
 	</div>
 	<div class="card-body">
 		<div class="table-responsive">
@@ -55,7 +55,7 @@ $(function(){
 				<div class="row">
 					<div class="col-sm-12">
 						<table class="table table-bordered dataTable" id="dataTable"
-							width="100%" cellspacing="0" role="grid"
+							width="80%" cellspacing="0" role="grid"
 							aria-describedby="dataTable_info" style="width: 100%;">
 							<thead>
 								<tr role="row">
@@ -76,6 +76,10 @@ $(function(){
 										rowspan="1" colspan="1"
 										aria-label="Age: activate to sort column ascending"
 										style="width: 50px;">취미</th>
+									<th class="sorting" tabindex="0" aria-controls="dataTable"
+										rowspan="1" colspan="1"
+										aria-label="Age: activate to sort column ascending"
+										style="width: 50px;">연락처</th>
 							</thead>
 							<tbody>
 							<!-- before => data : List<HwMemberVO> list / mem : HwMemberVO
@@ -95,6 +99,7 @@ $(function(){
 										<td>${mem.memName}</td>
 										<td>${mem.memJob}</td>
 										<td>${mem.memLike}</td>
+										<td>${mem.memHp}</td>
 									</tr>
 								</c:forEach>
 							</tbody>

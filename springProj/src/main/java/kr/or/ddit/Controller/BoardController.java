@@ -31,9 +31,12 @@ import org.springframework.web.servlet.ModelAndView;
 import kr.or.ddit.service.HwMemberService;
 import kr.or.ddit.util.ArticlePage;
 import kr.or.ddit.util.FileUploadUtil;
+import kr.or.ddit.vo.AttachVO;
 import kr.or.ddit.vo.BookVO;
 import kr.or.ddit.vo.HwMemberVO;
 import lombok.extern.slf4j.Slf4j;
+
+import org.mybatis.spring.mapper.MapperScannerConfigurer;
 
 // 프링아 이거 자바빈 객체로 관리해줘
 @RequestMapping("/board")
@@ -202,7 +205,7 @@ public class BoardController {
 		
 		BookVO bookVO = new BookVO();
 		bookVO.setBookId(7);
-		bookVO.setTitle("천원짜리 변호사");
+		bookVO.setTitle("작은 아씨들");
 		bookVO.setCategory("드라마");
 		bookVO.setPrice(10000);
 		bookVO.setInsertDate(new Date());
@@ -331,8 +334,6 @@ public class BoardController {
 		return rsltMap;
 	}
 	
-	
-	
 	/////////////////////////////////////// register06 파일 업로드 테스트
 	
 	
@@ -460,6 +461,28 @@ public class BoardController {
 		this.fileUploadUtil.fileUploadAction(file, uid.toString());
 		
 		return entity;
+	}
+	
+	// 요청URI: /board/detail?memId=a001
+	// URL: /board/detail
+	// 요청 파라미터: memId=a001
+	@GetMapping("/detail")
+	public String detail(String memId, Model model) {
+		log.info("memId : " + memId);
+		
+		// 회원 상세 정보(1)
+		HwMemberVO hwMemberVO = this.HwMemberService.detail(memId);
+		
+		// 회원 증명 사진(N)
+		List<AttachVO> attachVOList = hwMemberVO.getAttachVOList();
+		
+		log.info("hwMemberVO : " + hwMemberVO.toString());
+		
+		model.addAttribute("hwMemberVO", hwMemberVO);
+		model.addAttribute("attachVOList", attachVOList);
+		
+		// forwarding
+		return "board/detail";
 	}
 }
 

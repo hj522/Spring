@@ -25,7 +25,7 @@
 		   
 		   //input type="file" id="productImage" name="productImage" class="form-control"
 		   //multiple
-		   $("#productImage").on("change",handleImgFileSelect);
+		   $("#input_imgs").on("change",handleImgFileSelect);
 		   //파라미터 e : onchange 이벤트 객체
 		   function handleImgFileSelect(e){
 		      //이벤트가 발생된 타겟 안에 이미지 파일들을 가져와보자 

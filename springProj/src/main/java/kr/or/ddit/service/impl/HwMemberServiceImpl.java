@@ -6,10 +6,12 @@ import java.util.Map;
 
 import javax.inject.Inject;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import kr.or.ddit.dao.HwMemberDAO;
+import kr.or.ddit.mapper.HwMemberMapper;
 import kr.or.ddit.service.HwMemberService;
 import kr.or.ddit.util.FileUploadUtil;
 import kr.or.ddit.vo.HwMemberVO;
@@ -22,12 +24,15 @@ public class HwMemberServiceImpl implements HwMemberService {
 	@Inject
 	HwMemberDAO hwMemberDao;
 	
+	@Autowired
+	HwMemberMapper hwMemberMapper;
+	
 	@Inject
 	FileUploadUtil fileUploadUtil;
 
 	@Override
 	public List<HwMemberVO> list(Map<String, String> map) {
-		return this.hwMemberDao.list(map);
+		return this.hwMemberMapper.selectMember(map);
 	}
 	
 	// 프링아. 트랜잭션 처리를 해주렴
@@ -35,7 +40,7 @@ public class HwMemberServiceImpl implements HwMemberService {
 	@Override
 	public int insert(HwMemberVO hwMemberVO) {
 		// HW_MEMBER테이블에 insert
-		this.hwMemberDao.insert(hwMemberVO);
+		this.hwMemberMapper.insertMember(hwMemberVO);
 		
 		// FileUploadUtil 활용 -> 업로드, ATTACH테이블에 insert
 		return this.fileUploadUtil.fileUploadAction(hwMemberVO.getPictureArray(), hwMemberVO.getMemId());
@@ -44,12 +49,18 @@ public class HwMemberServiceImpl implements HwMemberService {
 	// HW_MEMBER 전체 행의 수 구하기
 	@Override
 	public int getTotal(Map<String, String> map) {
-		return this.hwMemberDao.getTotal(map);
+		return this.hwMemberMapper.getTotal(map);
 	}
 	
 	// 아이디 중복체크
 	@Override
 	public int chkDup(String memId) {
-		return this.hwMemberDao.chkDup(memId);
+		return this.hwMemberMapper.chkDup(memId);
 	}		
+	
+	// 상세보기
+	@Override
+	public HwMemberVO detail(String memId) {
+		return this.hwMemberMapper.detail(memId);
+	}
 }

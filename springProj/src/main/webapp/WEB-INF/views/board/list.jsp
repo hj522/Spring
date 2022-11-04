@@ -90,13 +90,13 @@ $(function(){
 							-->
 								<c:forEach var="mem" items="${list.content}" varStatus="stat">
 									<c:if test="${stat.count%2==0}">
-										<tr class="even" style="background-color:#E1EEFF;">
+									<tr class="even" style="background-color:#E1EEFF;">
 									</c:if>
 									<c:if test="${stat.count%2!=0}">
-										<tr class="odd">
+									<tr class="odd">
 									</c:if>
 										<td class="sorting_1">${mem.memId}</td>
-										<td>${mem.memName}</td>
+										<td><a href="/board/detail?memId=${mem.memId}">${mem.memName}</td>
 										<td>${mem.memJob}</td>
 										<td>${mem.memLike}</td>
 										<td>${mem.memHp}</td>

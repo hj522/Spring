@@ -19,5 +19,7 @@ public interface HwMemberService {
 	public int getTotal(Map<String, String> map); 	// HW_MEMBER 전체 행의 수 구하기
 
 	public int chkDup(String memId);	// 아이디 중복 체크
+	
+	public HwMemberVO detail(String memId);	// 상세 보기
 
 }

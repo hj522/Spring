@@ -4,11 +4,19 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
+import javax.validation.constraints.Size;
+
+import org.hibernate.validator.constraints.NotBlank;
 import org.springframework.web.multipart.MultipartFile;
 
 public class HwMemberVO {
 	
+	// 필수 입력
+	@NotBlank
 	private String memId;
+	// 필수 입력 + 최대 3글자까지 허용
+	@NotBlank
+	@Size(max=3)
 	private String memPass;
 	private String memName;
 	private String memRegno1;
@@ -32,6 +40,25 @@ public class HwMemberVO {
 	// register06 파일 업로드 테스트용
 	private String userId;
 	private String password;
+	private String introduction; // 자기소개 
+	
+	private Date birth;						// 생일(2022/11/01 => 형식 변경: 20221101 => 변경: 2022-11-01)
+	private int coin = 100; 				// 보유 코인
+	private String gender;					// 성별
+	private String nationality;				// 국적
+	private String[] cars;					// 소유 자동차s
+	private String car;
+	private String[] hobbyList;				// 취미s
+	private String hobby;
+	private boolean marriaged;				// 결혼 유무
+	private String developer; // 개발자 여부(Y, null)
+	private String foreigner; // 외국인 여부(boolean형이 더 좋더라)
+
+	private List<AttachVO> attachVOList;	
+
+	private AddressVO addressVO;	// 중첩된 자바빈(1:1)
+	private List<CardVO> cardVOList;	// 중첩된 자바빈(1:N)
+	
 	private MultipartFile picture;
 	private MultipartFile picture2;
 	private List<MultipartFile> pictureList; // ..name="pictureList[0]"
@@ -241,6 +268,126 @@ public class HwMemberVO {
 		this.pictureArray = pictureArray;
 	}
 
+	public String getIntroduction() {
+		return introduction;
+	}
+
+	public void setIntroduction(String introduction) {
+		this.introduction = introduction;
+	}
+
+	public Date getBirth() {
+		return birth;
+	}
+
+	public void setBirth(Date birth) {
+		this.birth = birth;
+	}
+
+	public int getCoin() {
+		return coin;
+	}
+
+	public void setCoin(int coin) {
+		this.coin = coin;
+	}
+
+	public String getGender() {
+		return gender;
+	}
+
+	public void setGender(String gender) {
+		this.gender = gender;
+	}
+
+	public String getNationality() {
+		return nationality;
+	}
+
+	public void setNationality(String nationality) {
+		this.nationality = nationality;
+	}
+
+	public String[] getCars() {
+		return cars;
+	}
+
+	public void setCars(String[] cars) {
+		this.cars = cars;
+	}
+
+	public String getCar() {
+		return car;
+	}
+
+	public void setCar(String car) {
+		this.car = car;
+	}
+
+	public String[] getHobbyList() {
+		return hobbyList;
+	}
+
+	public void setHobbyList(String[] hobbyList) {
+		this.hobbyList = hobbyList;
+	}
+
+	public String getHobby() {
+		return hobby;
+	}
+
+	public void setHobby(String hobby) {
+		this.hobby = hobby;
+	}
+
+	public boolean isMarriaged() {
+		return marriaged;
+	}
+
+	public void setMarriaged(boolean marriaged) {
+		this.marriaged = marriaged;
+	}
+
+	public AddressVO getAddressVO() {
+		return addressVO;
+	}
+
+	public void setAddressVO(AddressVO addressVO) {
+		this.addressVO = addressVO;
+	}
+
+	public List<CardVO> getCardVOList() {
+		return cardVOList;
+	}
+
+	public void setCardVOList(List<CardVO> cardVOList) {
+		this.cardVOList = cardVOList;
+	}
+
+	public String getDeveloper() {
+		return developer;
+	}
+
+	public void setDeveloper(String developer) {
+		this.developer = developer;
+	}
+
+	public String getForeigner() {
+		return foreigner;
+	}
+
+	public void setForeigner(String foreigner) {
+		this.foreigner = foreigner;
+	}
+
+	public List<AttachVO> getAttachVOList() {
+		return attachVOList;
+	}
+
+	public void setAttachVOList(List<AttachVO> attachVOList) {
+		this.attachVOList = attachVOList;
+	}
+
 	@Override
 	public String toString() {
 		return "HwMemberVO [memId=" + memId + ", memPass=" + memPass + ", memName=" + memName + ", memRegno1="
@@ -248,9 +395,14 @@ public class HwMemberVO {
 				+ memAdd1 + ", memAdd2=" + memAdd2 + ", memHometel=" + memHometel + ", memComtel=" + memComtel
 				+ ", memHp=" + memHp + ", memMail=" + memMail + ", memJob=" + memJob + ", memLike=" + memLike
 				+ ", memMemorial=" + memMemorial + ", memMemorialday=" + memMemorialday + ", memMileage=" + memMileage
-				+ ", memDelete=" + memDelete + ", userId=" + userId + ", password=" + password + ", picture=" + picture
-				+ ", picture2=" + picture2 + ", pictureList=" + pictureList + ", pictureArray="
-				+ Arrays.toString(pictureArray) + "]";
+				+ ", memDelete=" + memDelete + ", userId=" + userId + ", password=" + password + ", introduction="
+				+ introduction + ", birth=" + birth + ", coin=" + coin + ", gender=" + gender + ", nationality="
+				+ nationality + ", cars=" + Arrays.toString(cars) + ", car=" + car + ", hobbyList="
+				+ Arrays.toString(hobbyList) + ", hobby=" + hobby + ", marriaged=" + marriaged + ", developer="
+				+ developer + ", foreigner=" + foreigner + ", attachVOList=" + attachVOList + ", addressVO=" + addressVO
+				+ ", cardVOList=" + cardVOList + ", picture=" + picture + ", picture2=" + picture2 + ", pictureList="
+				+ pictureList + ", pictureArray=" + Arrays.toString(pictureArray) + "]";
 	}
+
 
 }

@@ -3,9 +3,33 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <script type="text/javascript" src="/resources/js/jquery-3.6.0.js"></script>
 
+<script type="text/javascript">
+$(function(){
+	   //전역변수[0][1]..
+	   var count=1; //let으로도 많이 씀
+	   $('#addFile').on('click', function(){
+	      count++;   //2
+	      event.preventDefault();
+	      var att = $("div#att");
+	        
+	      att.append('<div class="form-group aa" id="attach'+ count + '"><input id="attachVOList' + count + '.filename" name="attachVOList[' + count + '].filename" placeholder="첨부파일" class="form-control form-control-user" type="text"></div>');
+	   });
+	   
+	   $('#delFile').on('click', function(){
+	      event.preventDefault();
+	      var aa = document.querySelectorAll('.aa');
+	      console.log(aa);
+	      
+	      if(count>1){
+	         $('.aa:last').remove();
+	         count--;
+	      }
+	   });
+	});
+
+</script>
 
 <script type="text/javascript">
-
 
 function fn_chk() {
 	let userPw = document.getElementById("userPw").value;
@@ -22,7 +46,7 @@ function fn_chk() {
 	} 
 	
 	return true;
-}
+	}
 </script>
 
 <!-- http://localhost:8081/article/write -->
@@ -68,17 +92,19 @@ function fn_chk() {
 							</div>
 							<!-- 첨부파일 추가 -->
 							<div>
-							<button type="button" class="btn btn-success btn-circle btn-sm" id="addFile" name="addFile">
+							<button type="button" id="addFile" class="btn btn-success btn-circle btn-sm">
 							<i class="fas fa-check"></i></button>
 							<!-- 첨부파일 제거 -->
-							<button type="button" class="btn btn-danger btn-circle btn-sm" id="delFile" name="delFile">
+							<button type="button" id="delFile" class="btn btn-danger btn-circle btn-sm">
 							<i class="fas fa-trash"></i></button>
 							</div>
-							<div class="form-group">
+							<div id="att">
+							<div class="form-group aa" id="attach0">
 								<form:input class="form-control form-control-user" path="attachVOList[0].filename" placeholder="첨부파일" />
 								<font color="red">
 										<form:errors path="attachVOList[0].filename" />
 								</font>
+							</div>
 							</div>
 							<div class="form-group row">
 								<div class="col-sm-6 mb-3 mb-sm-0">

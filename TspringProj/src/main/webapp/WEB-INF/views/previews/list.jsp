@@ -15,7 +15,7 @@
   	<c:forEach var="memVO" items="${memVOList}" varStatus="stat">
 	    <tr>
 	      <th scope="row">${stat.count}</th>
-	      <td>${memVO.userNo}</td>
+	      <td><a href="/previews/detail?userNo=${memVO.userNo}">${memVO.userNo}</a></td>
 	      <td>${memVO.userId}</td>
 	      <td>${memVO.userName}</td>
 	      <td>

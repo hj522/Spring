@@ -32,12 +32,25 @@ public interface MemMapper {
 	//회원 전체 수(검색 포함)
 	public int memTotal(Map<String,String> map);
 
-//	 <!-- 새로운 MEM 테이블에 insert -->
+	// 새로운 MEM 테이블에 insert
 	 public int memInsert(MemVO memVO); 
 	 
-	 // 새로운 MEM 테이블 list
-	 // select id="memList2" resultType="memVOMap">
-	 public List<MemVO> memList2();
+	// 새로운 MEM 테이블 list
+	// select id="memList2" resultType="memVOMap">
+	public List<MemVO> memList2();
+	 
+	// 회원 상세
+	public MemVO memDetail(String userNo);
+	
+	// 비밀번호 체크
+	public int detailPwCheck(MemVO memVO);
+	
+	// 회원정보 변경
+	public int memUpdate(MemVO memVO);
+	
+	// 회원 삭제
+	public int memDelete(MemVO memVO);
+
 }
 
 

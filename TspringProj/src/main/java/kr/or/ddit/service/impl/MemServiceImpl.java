@@ -111,8 +111,8 @@ public class MemServiceImpl implements MemService {
 	}
 	
 	// 회원 삭제
-	public int memDelete(MemVO memVO) {
-		return this.memMapper.memDelete(memVO);
+	public int memDelete(int userNo) {
+		return this.memMapper.memDelete(userNo);
 	}
 }
 

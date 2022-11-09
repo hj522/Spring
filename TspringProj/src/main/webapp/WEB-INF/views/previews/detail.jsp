@@ -9,7 +9,7 @@ $(function(){
 	   //전역변수[0][1]..
 	   var count=1; //let으로도 많이 씀
 	   $('#addFile').on('click', function(){
-	      count++;   //2
+	      count++;
 	      event.preventDefault();
 	      var att = $("div#att");
 	        
@@ -65,7 +65,7 @@ $(function(){
 			$("#userId").attr("readonly","true");
 		});
 		
-		// 삭제버튼 클릭 => 숙제
+		// 삭제버튼
 		$("#delete").on("click",function(){
 			$("#memVO").attr("action","/previews/deletePost");
 			

@@ -236,7 +236,7 @@
 	 </update>
 	 
 	 <!-- 회원 삭제 -->
-	 <delete id="memDelete" parameterType="memVO">
+	 <delete id="memDelete" parameterType="int">
   		DELETE FROM MEM
   		WHERE USER_NO = #{userNo}
   	</delete>

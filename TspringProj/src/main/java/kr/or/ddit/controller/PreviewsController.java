@@ -157,12 +157,15 @@ public class PreviewsController {
 	}
 	
 	// 요청URI: /previews/deletePost
+	// 요청 파라미터: memVO
+	// 방식: post
 	@PostMapping("/deletePost")
 	public String deletePost(@ModelAttribute MemVO memVO) {
 		
 		log.info("memVO: " + memVO.toString());
 		
-		int result = this.memService.memDelete(memVO);
+		int result = this.memService.memDelete(memVO.getUserNo());
+		log.info("result: " + result);
 		
 		return "redirect:/previews/list";
 	}

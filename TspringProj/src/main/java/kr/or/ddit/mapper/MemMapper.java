@@ -49,7 +49,7 @@ public interface MemMapper {
 	public int memUpdate(MemVO memVO);
 	
 	// 회원 삭제
-	public int memDelete(MemVO memVO);
+	public int memDelete(int userNo);
 
 }
 

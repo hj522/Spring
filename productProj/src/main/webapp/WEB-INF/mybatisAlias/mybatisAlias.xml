@@ -12,6 +12,6 @@
 			<setting name="mapUnderscoreToCamelCase" value="true" />
 	  </settings>
 	  <typeAliases>	<!-- 자주 사용하는 타입의 별칭을 세팅 -->
-	  		<typeAlias type="kr.or.ddit.vo.productVO" alias="productVO" />
+	  		<typeAlias type="kr.or.ddit.vo.ProductVO" alias="productVO" />
 	  </typeAliases>
   </configuration>

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace : xml파일은 여러개일 수 있음. 이를 구별하기 위한 식별 용도로 사용 -->
+<mapper namespace="kr.or.ddit.mapper.BookMapper">
+
+	<select id="list" resultType="bookVO">
+		SELECT BOOK_ID, TITLE, CATEGORY, PRICE, INSERT_DATE
+		FROM BOOK
+	</select>
+	
+	<select id="detailBook" parameterType="bookVO" resultType="bookVO">
+		SELECT BOOK_ID, TITLE, CATEGORY, PRICE, INSERT_DATE, CONTENT
+		FROM BOOK
+		WHERE BOOK_ID = #{bookId}
+	</select>
+	
+	<update id="updateBook" parameterType="bookVO">
+		UPDATE BOOK
+		SET BOOK_ID = #{bookId}, TITLE = #{title}, CATEGORY = #{category}, PRICE = #{price}, INSERT_DATE = sysdate, CONTENT = #{content}
+		WHERE BOOK_ID = #{bookId}
+	</update>
+	
+	<insert id="insertBook" parameterType="bookVO">
+		<selectKey order="BEFORE" keyProperty="bookId" resultType="int">
+			SELECT NVL(MAX(BOOK_ID),0) + 1 FROM BOOK
+		</selectKey>
+		
+		INSERT INTO BOOK(BOOK_ID, TITLE, CATEGORY, PRICE, INSERT_DATE, CONTENT)
+		VALUES(#{bookId}, #{title}, #{category}, #{price}, sysdate, #{content})
+	</insert>
+</mapper>
+
+
+
+
+
+
+
+
+
+

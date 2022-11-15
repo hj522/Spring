@@ -2,6 +2,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <script type="text/javascript" src="/resources/js/jquery-3.6.0.js"></script>
+<script type="text/javascript" src="/resources/ckeditor/ckeditor.js"></script>
 
 <script type="text/javascript">
 	$(function() {
@@ -14,6 +15,7 @@
 			$("#cancelBook").css("display", "block");
 			$("#editBook").css("display", "none");
 			$("#frm").attr("action", "/book/updatePost"); // 업데이트 form action 추가
+			CKEDITOR.instances['content'].setReadOnly(false);	// content 수정
 		});
 		
 		// 가격 - 숫자만 입력할 수 있게 validation 적용
@@ -71,7 +73,7 @@
 				<div class="form=group">
 					<label>내용</label>
 					<div>
-						<textarea id="content" name="content" class="form-control form-control-book" rows="15" 
+						<textarea id="content" name="content" class="form-control" rows="7" 
 						readonly="readonly">${data.content}</textarea>
 					</div>
 					<br>
@@ -103,8 +105,11 @@
 				<a href="/book/detail?bookId=${data.bookId}" id="cancelBook"
 					class="btn btn-danger"
 					style="float: right; margin-right: 5px; display: none;">취소
-					</button>
+				</a>
 			</div>
 		</div>
 	</form>
 </div>
+<script type="text/javascript">
+CKEDITOR.replace('content');
+</script>

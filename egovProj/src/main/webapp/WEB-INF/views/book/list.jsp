@@ -47,9 +47,10 @@
 							<td class="dtr-control sorting_1" tabindex="0">${bookVO.bookId}</td>
 							<td><a href="/book/detail?bookId=${bookVO.bookId}">${bookVO.title}</a></td>
 							<td>${bookVO.category}</td>
-							<td><fmt:formatNumber type="number" maxFractionDigits="3"
-									value="${bookVO.price}" /></td>
-							<td><fmt:formatDate value="${bookVO.insertDate}" pattern="yyyy-MM-dd" /></td>
+							<td><fmt:formatNumber value="${bookVO.price}"
+									pattern="#,###" /></td>
+							<td><fmt:formatDate value="${bookVO.insertDate}"
+									pattern="yyyy-MM-dd" /></td>
 							</tr>
 						</c:forEach>
 					</tbody>

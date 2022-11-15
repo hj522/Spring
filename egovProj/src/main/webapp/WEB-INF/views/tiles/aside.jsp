@@ -42,45 +42,63 @@
 				data-widget="treeview" role="menu" data-accordion="false">
 				<!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
-				<li class="nav-item menu-open"><a href="#"
-					class="nav-link active"> <i
-						class="nav-icon fas fa-tachometer-alt"></i>
-						<p>
-							Dashboard <i class="right fas fa-angle-left"></i>
-						</p>
-				</a>
-					<ul class="nav nav-treeview">
-						<li class="nav-item"><a href="./index.html"
-							class="nav-link active"> <i class="far fa-circle nav-icon"></i>
-								<p>Dashboard v1</p>
-						</a></li>
-						<li class="nav-item"><a href="./index2.html" class="nav-link">
-								<i class="far fa-circle nav-icon"></i>
-								<p>Dashboard v2</p>
-						</a></li>
-						<li class="nav-item"><a href="./index3.html" class="nav-link">
-								<i class="far fa-circle nav-icon"></i>
-								<p>Dashboard v3</p>
-						</a></li>
-					</ul></li>
+<!-- 				<li class="nav-item menu-open"><a href="#" -->
+<!-- 					class="nav-link active"> <i -->
+<!-- 						class="nav-icon fas fa-tachometer-alt"></i> -->
+<!-- 						<p> -->
+<!-- 							Dashboard <i class="right fas fa-angle-left"></i> -->
+<!-- 						</p> -->
+<!-- 				</a> -->
+<!-- 					<ul class="nav nav-treeview"> -->
+<!-- 						<li class="nav-item"><a href="./index.html" -->
+<!-- 							class="nav-link active"> <i class="far fa-circle nav-icon"></i> -->
+<!-- 								<p>Dashboard v1</p> -->
+<!-- 						</a></li> -->
+<!-- 						<li class="nav-item"><a href="./index2.html" class="nav-link"> -->
+<!-- 								<i class="far fa-circle nav-icon"></i> -->
+<!-- 								<p>Dashboard v2</p> -->
+<!-- 						</a></li> -->
+<!-- 						<li class="nav-item"><a href="./index3.html" class="nav-link"> -->
+<!-- 								<i class="far fa-circle nav-icon"></i> -->
+<!-- 								<p>Dashboard v3</p> -->
+<!-- 						</a></li> -->
+<!-- 					</ul></li> -->
+
 				<!-- 도서관리 메뉴 시작 -->
 				<li class="nav-item"><a href="#" class="nav-link"> <i
-						class="nav-icon fas fa-chart-pie"></i>
+						class="nav-icon fas fa-book text-warning"></i>
 						<p>
-							도서관리 <i class="right fas fa-angle-left"></i>
+							도서관리 <i class="right fas fa-angle-left text-warning"></i>
 						</p>
 				</a>
 					<ul class="nav nav-treeview">
 						<li class="nav-item"><a href="/book/list"
-							class="nav-link"> <i class="far fa-circle nav-icon"></i>
+							class="nav-link"> <i class="nav-icon far fa-circle text-warning"></i>
 								<p>도서목록</p>
 						</a></li>
-						<li class="nav-item"><a href="/book/regist"
-							class="nav-link"> <i class="far fa-circle nav-icon"></i>
+						<li class="nav-item"><a href="/book/insert"
+							class="nav-link"> <i class="nav-icon far fa-circle text-warning"></i>
 								<p>도서등록</p>
 						</a></li>
 					</ul></li>
 				<!-- 도서관리 메뉴 끝 -->
+				<!-- 이미지갤러리 메뉴 -->
+				<li class="nav-item"><a href="#" class="nav-link"> <i
+						class="nav-icon fas fa-image text-info"></i>
+						<p>
+							이미지갤러리 <i class="right fas fa-angle-left text-info"></i>
+						</p>
+				</a>
+					<ul class="nav nav-treeview">
+						<li class="nav-item"><a href="/gallery/list"
+							class="nav-link"> <i class="nav-icon far fa-circle text-info"></i>
+								<p>목록보기</p>
+						</a></li>
+						<li class="nav-item"><a href="/gallery/regist"
+							class="nav-link"> <i class="nav-icon far fa-circle text-info"></i>
+								<p>이미지등록</p>
+						</a></li>
+					</ul></li>
 				<li class="nav-item"><a href="pages/widgets.html"
 					class="nav-link"> <i class="nav-icon fas fa-th"></i>
 						<p>

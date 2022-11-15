@@ -94,5 +94,6 @@ public class BookController {
 		// bookVO.getBookId()는 매퍼 xml의 selectKey를 통해 채워질 것임!
 		return "redirect:/book/detail?bookId="+bookVO.getBookId();
 	}
+	
 }
 

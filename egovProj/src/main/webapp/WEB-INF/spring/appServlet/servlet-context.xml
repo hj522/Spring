@@ -64,7 +64,6 @@ http://www.springframework.org/schema/security/spring-security-4.2.xsd">
    
    <beans:bean id="multipartResolver"
       class="org.springframework.web.multipart.support.StandardServletMultipartResolver">
-      
    </beans:bean>
    
 </beans:beans>

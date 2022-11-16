@@ -39,8 +39,10 @@
 					<div class="col-sm-2">
 						<a class="btn btn-modal" data-toggle="modal" href="#modal-default"
 							data-id="/resources/upload${attachVO.filename}"
-							data-title="${bookVO.title}"> <img
-							src="/resources/upload${attachVO.filename}"
+							data-title="${bookVO.title}"
+							data-userno="${bookVO.bookId}"
+							data-seq="${attachVO.seq}">
+							<img src="/resources/upload${attachVO.filename}"
 							class="img-fluid mb-2" alt="white sample">
 						</a>
 					</div>
@@ -55,7 +57,9 @@
 	<div class="modal-dialog">
 		<div class="modal-content">
 			<div class="modal-header">
-				<h4 class="modal-title"></h4>
+				<h4 class="modal-title">Default Modal</h4>
+				<input type="text" id="txtUserNo" value="" />
+				<input type="text" id="txtSeq" value="" />
 				<button type="button" class="close" data-dismiss="modal"
 					aria-label="Close">
 					<span aria-hidden="true">×</span>
@@ -65,8 +69,30 @@
 				<p id="body-content"></p>
 			</div>
 			<div class="modal-footer justify-content-between">
-				<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-				<!-- 				<button type="button" class="btn btn-primary">Save changes</button> -->
+				<div style="float:left;">
+					<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+				</div>
+				<div style="float:right;">
+					<!-- 일반모드 시작 -->
+					<span id="spn1" style="display: block;">
+						<button type="button" class="btn btn-primary" id="updateImg">수정</button>
+						<button type="button" class="btn btn-outline-danger" id="deleteImg">삭제</button>
+					</span>
+					<!-- 일반모드 끝 -->
+					<!-- 수정모드 시작 -->
+					<span id="spn2" style="display: none;">
+						<div class="input-group justify-content-between">
+						<div class="custom-file" style="float:left;">
+								<input type="file" class="custom-file-input" id="uploadFile" name="uploadFile">
+								<label class="custom-file-label" for="exampleInputFile">파일을 선택하세요.</label>
+						</div>
+						<div style="float:right;">
+						<button type="button" class="btn btn-primary" id="fileOK">확인</button>
+						<button type="button" class="btn btn-outline-secondary" id="fileNO">취소</button>
+						</div>
+					</span>
+					<!-- 수정모드 끝 -->
+				</div>
 			</div>
 		</div>
 	</div>
@@ -74,15 +100,20 @@
 <!-- default modal 끝 -->
 <script type="text/javascript">
 $(function(){
-	// data-id=".......
+
 	$(".btn-modal").click(function(){
-		let data = $(this).data("id");
-		let title = $(this).data("title");
-		console.log("data: " + data + "title" + title);
+		let data = $(this).data("id");			//data-id=".....
+		let title = $(this).data("title"); 		//data-title=".....
+		// userNo랑 seq는 ATTACH 테이블의 복합키로써의 기본키(식별키)
+		let userno = $(this).data("userno");	// data-userNo="....."
+		let seq = $(this).data("seq");			// data-seq="....."
+		console.log("data: " + data + "title" + title + "userno: " + userno + ", seq: " + seq);
 		
 		$("#body-content").html("<img src='" + data + "' style='width:100%;' />");
-		$(".modal-title").html(title);
+		$(".modal-title").html(title);	// modal은 하나이고, modal-title 클래스 또한 하나임
 //		$(".modal-title").text(title);  <- .html()이랑 같음
+		$("#txtUserNo").val(userno);
+		$("#txtSeq").val(seq);
 
 	let currentBookId = "${param.bookId}";
 	let sel = "";
@@ -126,5 +157,157 @@ $(function(){
 		location.href="/gallery/list?bookId="+bookId;
 	});
 	
+	// 수정 버튼 클릭
+	$("#updateImg").on("click", function() {
+		$("#spn1").css("display", "none");
+		$("#spn2").css("display", "block");
+	});
+	
+	// 취소 버튼 클릭
+	$("#fileNO").on("click", function() {
+		$("#spn1").css("display", "block");
+		$("#spn2").css("display", "none");
+	});
+	
+	// ajax 파일 업로드 구현 시작
+	// 이미지 체킹
+	let regex = new RegExp("(.*?)\.(exe|sh|zip|alz)$"); // 정규식
+	let maxSize = 5242880;	// 5MB
+	
+	function checkExtension(fileName, fileSize) {	// 확장자, 크기 체킹
+		if(fileSize >= maxSize){
+			alert("파일 사이즈가 초과되었습니다.");
+			// 함수 종류
+			return false;
+		}
+		// fileName: 개똥이.zip
+		if(regex.test(fileName)) {
+			alert("해당 종류의 파일은 업로드할 수 없습니다.");
+			return false;
+		}
+		return true;
+	}
+	
+	// e: 클릭 이벤트
+	$("#fileOK").on("click", function(){
+		// 가상의 form 태그 생성 <form></form>
+		let formData = new FormData();
+		// <input type="file" name="uploadFile" ....
+		let inputFile = $("input[name='uploadFile']");
+		// 파일 object 안에 이미지를 가져와보자
+		// inputFile[0]: input type="file"
+		// .files: 그 안에 들어있는 이미지 
+		let files = inputFile[0].files;
+		// files: [object FileList]
+		console.log("files: " + files);
+		
+		// 가상의 form인 formData Object에 filedata를 추가해보자
+		for(let i=0;i<files.length;i++) {
+
+			// 파일 확장자&크기 체킹(확장자가 exe, sh, zip, azl이니? 안 되는데...)
+			if(!checkExtension(files[i].name, files[i].size)) {
+				return false; // 반복문 및 함수 종료
+			}
+ 			formData.append("uploadFile", files[i]); // <form><input type='file' name='uploadFile' /></form>
+		}
+		
+		/*
+			<form>
+				<input type="file" name="uploadFile" />
+				<input type="text" name="userNo" value="3" />
+				<input type="text" name="seq" value="5" />
+			</form>
+		*/
+		formData.append("userNo", $("#txtUserNo").val());
+		formData.append("seq", $("#txtSeq").val());
+		
+		console.log("formData: " + formData);
+		
+		// 아작났어유 피씨다타써
+		// contentType: 보내는 타입
+		// dataType: 받는 데이터 타입
+		$.ajax({
+			url: "/gallery/updatePost",
+			processData:false,
+			contentType:false,
+			data:formData,
+			dataType:"json",
+			type:"post",
+			success: function(result) {
+				console.log("result: " + JSON.stringify(result));
+				console.log("uploaded");
+				let filename = result.filename;
+				alert("이미지 변경 성공!");
+				location.href="/gallery/list?bookId=${param.bookId}";
+			//	$("#body-content img").attr("src", "/resources/upload" + filename);
+			}
+		});
+	});
+	// ajax 파일 업로드 구현 끝
+	
+	// 이미지 미리보기 시작
+	let sel_file = [];
+	
+	$("#uploadFile").on("change", handleImgFileSelect);
+	// e: onchange 이벤트 객체
+	function handleImgFileSelect(e) {
+		// 이벤트가 발생된 타겟 안에 들어있는 이미지 파일들을 가져와보자
+		let files = e.target.files;
+		// 이미지가 여러 개가 있을 수 있으므로 이미지들을 각각 분리해서 배열로 만듦
+		let fileArr = Array.prototype.slice.call(files);
+		// 파일 타입의 배열 반복. f : 배열 안에 들어있는 각각의 이미지 파일 객체
+		fileArr.forEach(function(f){
+			// 이미지 파일이 아닌 경우 이미지 미리보기 실패 처리(MIME타입)
+			if(!f.type.match("image.*")){
+				alert("이미지 확장자만 가능합니다.");
+				// 함수 종료
+				return;
+			}
+			// 이미지 객체를 전역 배열타입 변수에 넣자
+			sel_file.push(f);
+			// 이미지 객체를 읽을 자바스크립트의 reader 객체 생성
+			let reader = new FileReader();
+			// e: reader가 이미지 객체를 읽는 이벤트
+			reader.onload = function(e) {
+				// e.target: f(이미지 객체)
+				// e.target.result: reader가 이미지를 다 읽은 결과
+				let img_html = "<img src=\"" + e.target.result + "\" style='width:100%;' />";
+				// p 사이에 이미지가 렌더링되어 화면에 보임
+				// 객체.append: 누적
+				// .html: 새로고침, iinerHTMl: J/S
+				$("#body-content").html(img_html);
+			}
+			// f: 이미지 파일 객체를 읽은 후 다음 이미지 파일(f)을 위해 초기화 함
+			reader.readAsDataURL(f);
+		}); // end forEach
+	}
+	// 이미지 미리보기 끝
+	
+	// 이미지 삭제 시작 /////////////////////////
+	$("#deleteImg").on("click", function(){
+		let userNo = $("#txtUserNo").val();
+		let seq = $("#txtSeq").val();
+		
+		console.log("userNo: " + userNo + ", seq: " + seq);
+		
+		let data = {"userNo": userNo, "seq": seq};
+		
+		console.log("data: " + JSON.stringify(data));
+		
+		$.ajax({
+			url:"/gallery/deletePost",
+			contentType:"application/json;charset=utf-8",
+			data:JSON.stringify(data),
+			dataType:"json",
+			type:"post",
+			success: function(result) {
+				console.log("result: " + JSON.stringify(result));
+				// result가 0보다 크면 성공, 아니면 실패
+				// 성공 시: /gallery/list?bookId=3 / 실패 시: 실패 메시지 alert
+			}
+		});
+	});
+	// 이미지 삭제 끝 //////////////////////////
 });
+
 </script>

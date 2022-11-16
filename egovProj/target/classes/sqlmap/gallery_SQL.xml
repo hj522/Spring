@@ -47,4 +47,18 @@
 		FROM BOOK
 		ORDER BY TITLE ASC
 	</select>
+	
+	<!-- 변경된 사진 db에 반영 -->
+	<update id="updatePost" parameterType="attachVO">
+		UPDATE ATTACH
+		SET FILENAME = #{filename}
+		WHERE  USER_NO = #{userNo} AND SEQ = #{seq}
+	</update>
+	
+	<!-- 이미지 삭제 -->
+  	<delete id="deletePost" parameterType="String">
+  		DELETE FROM ATTACH
+  		WHERE USER_NO = #{userNo} AND SEQ = #{seq}
+  	</delete>
+	
 </mapper>

@@ -58,8 +58,8 @@
 		<div class="modal-content">
 			<div class="modal-header">
 				<h4 class="modal-title">Default Modal</h4>
-				<input type="text" id="txtUserNo" value="" />
-				<input type="text" id="txtSeq" value="" />
+				<input type="hidden" id="txtUserNo" value="" />
+				<input type="hidden" id="txtSeq" value="" />
 				<button type="button" class="close" data-dismiss="modal"
 					aria-label="Close">
 					<span aria-hidden="true">×</span>
@@ -274,7 +274,7 @@ $(function(){
 				let img_html = "<img src=\"" + e.target.result + "\" style='width:100%;' />";
 				// p 사이에 이미지가 렌더링되어 화면에 보임
 				// 객체.append: 누적
-				// .html: 새로고침, iinerHTMl: J/S
+				// .html: 새로고침, innerHTML: J/S
 				$("#body-content").html(img_html);
 			}
 			// f: 이미지 파일 객체를 읽은 후 다음 이미지 파일(f)을 위해 초기화 함
@@ -302,8 +302,17 @@ $(function(){
 			type:"post",
 			success: function(result) {
 				console.log("result: " + JSON.stringify(result));
+				// 1 또는 0이 str 변수에 할당됨
+				let str = result.result;
+				
 				// result가 0보다 크면 성공, 아니면 실패
 				// 성공 시: /gallery/list?bookId=3 / 실패 시: 실패 메시지 alert
+				if(str>0) {	// 성공 시
+					location.href="/gallery/list?bookId=${param.bookId}";
+					alert("삭제 성공~");
+				}else{
+					alert("삭제 실패ㅠ");
+				}
 			}
 		});
 	});

@@ -97,7 +97,7 @@
 			<!-- ====================== body 끝 /.content ========================== -->
 		</div>
 		<!-- =============== footer 시작 /.content-wrapper ================== -->
-		<tiles:insertAttribute name="footer" />
+<%-- 		<tiles:insertAttribute name="footer" /> --%>
 		<!-- =============== footer 끝 Control Sidebar ================= -->
 		<aside class="control-sidebar control-sidebar-dark">
 			<!-- Control sidebar content goes here -->

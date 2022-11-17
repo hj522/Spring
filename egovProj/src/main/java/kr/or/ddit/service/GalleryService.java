@@ -16,6 +16,10 @@ public interface GalleryService {
 	// 변경된 사진 db에 반영
 	public int updatePost(AttachVO attachVO);
 
+	// 이미지 삭제
 	public int deletePost(AttachVO attachVO);
+
+	// 도서 검색
+	public List<BookVO> searchBook(BookVO bookVO);
 	
 }

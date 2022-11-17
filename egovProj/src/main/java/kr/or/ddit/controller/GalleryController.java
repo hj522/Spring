@@ -5,6 +5,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -17,6 +18,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
@@ -194,15 +196,46 @@ public class GalleryController {
 	// 요청파라미터: {"userNo":"3", "seq":"9"}
 	@ResponseBody
 	@PostMapping("/deletePost")
-	public Map<String,String> deletePost(@ModelAttribute AttachVO attachVO) {
+	public Map<String,String> deletePost(@RequestBody AttachVO attachVO) {
 		log.info("attachVO: " + attachVO);
 		
 		Map<String,String> map = new HashMap<String, String>();
 		
 		// DELETE FROM ATTACH WHERE USER_NO = 3 AND SEQ = 9
+		int result = this.galleryService.deletePost(attachVO);
 		
-		map.put("result", "1");
+		log.info("result: " + result);
+		
+		map.put("result", result+"");
 		
 		return map;
+	}
+	
+	// 이미지 다중 등록
+	// 요청URI: /gallery/regist
+	// 방식: get
+	
+	@GetMapping("/regist")
+	public String regist(Model model) {
+		
+		// 공통 약속
+		model.addAttribute("bodyTitle", "이미지 등록");
+		
+		// forwarding
+		return "gallery/regist";
+	}
+	
+	// 요청파라미터(json): {"title": "개똥이"}
+	// 요청URI: /gallery/registPost
+	// 방식: post
+	@ResponseBody
+	@PostMapping("/registPost")
+	public List<BookVO> registPost(@RequestBody BookVO bookVO) {
+		log.info("bookVO : " + bookVO);
+		
+		List<BookVO> bookVOList = this.galleryService.searchBook(bookVO);
+		log.info("bookVOList: " + bookVOList);
+		
+		return bookVOList;
 	}
 }

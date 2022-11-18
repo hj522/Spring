@@ -11,12 +11,12 @@
 			<!-- 도서 선택 시작 -->
 			<!-- ajax를 통해 append -->
 			<select class="custom-select">
-				<option value="1">하얀 개똥이</option>
-				<option value="2">은수저</option>
-				<option value="3">7번 방의 개똥이</option>
-				<option value="4">정보처리기사 필기</option>
-				<option value="5">5번방의 개똥이</option>
-				<option value="6">지구에서 한아뿐</option>
+<!-- 				<option value="1">하얀 개똥이</option> -->
+<!-- 				<option value="2">은수저</option> -->
+<!-- 				<option value="3">7번 방의 개똥이</option> -->
+<!-- 				<option value="4">정보처리기사 필기</option> -->
+<!-- 				<option value="5">5번방의 개똥이</option> -->
+<!-- 				<option value="6">지구에서 한아뿐</option> -->
 			</select>             
 		</div>
 		<div class="card-body">
@@ -90,6 +90,7 @@
 						<button type="button" class="btn btn-primary" id="fileOK">확인</button>
 						<button type="button" class="btn btn-outline-secondary" id="fileNO">취소</button>
 						</div>
+						</div>
 					</span>
 					<!-- 수정모드 끝 -->
 				</div>
@@ -100,6 +101,9 @@
 <!-- default modal 끝 -->
 <script type="text/javascript">
 $(function(){
+	
+	let currentBookId = "${param.bookId}";
+	let sel = "";
 
 	$(".btn-modal").click(function(){
 		let data = $(this).data("id");			//data-id=".....
@@ -115,8 +119,6 @@ $(function(){
 		$("#txtUserNo").val(userno);
 		$("#txtSeq").val(seq);
 
-	let currentBookId = "${param.bookId}";
-	let sel = "";
 	
 	});
 	
@@ -238,7 +240,7 @@ $(function(){
 				console.log("uploaded");
 				let filename = result.filename;
 				alert("이미지 변경 성공!");
-				location.href="/gallery/list?bookId=${param.bookId}";
+				location.href="/gallery/list";
 			//	$("#body-content img").attr("src", "/resources/upload" + filename);
 			}
 		});
@@ -308,7 +310,7 @@ $(function(){
 				// result가 0보다 크면 성공, 아니면 실패
 				// 성공 시: /gallery/list?bookId=3 / 실패 시: 실패 메시지 alert
 				if(str>0) {	// 성공 시
-					location.href="/gallery/list?bookId=${param.bookId}";
+					location.href="/gallery/list";
 					alert("삭제 성공~");
 				}else{
 					alert("삭제 실패ㅠ");

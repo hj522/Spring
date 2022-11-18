@@ -38,7 +38,7 @@
 		, A.FILESIZE
 		, A.REGDATE
 		FROM BOOK B INNER JOIN ATTACH A ON(B.BOOK_ID = A.USER_NO)
-		WHERE B.BOOK_ID = 3
+		WHERE B.BOOK_ID = #{bookId}
 	</select>
 
 	<!-- 도서 목록 가져와서 select에 추가하기 -->
@@ -74,4 +74,21 @@
 			OR CATEGORY LIKE '%' || #{title} || '%' 
 			OR CONTENT LIKE '%' || #{title} || '%')
 	</select>	
+	
+	<!-- 갤러리 이미지 파일 업로드
+		**다중 insert 시 update 태그를 사용하자!
+		드루와: List<attachVO> attachVOList
+		가즈아: insert, update, delete의 경우 resultType은 생략 -->
+	<update id="uploadAjaxAction" parameterType="java.util.List">
+		<foreach collection="list" item="attachVO" open="INSERT ALL " close="SELECT * FROM DUAL" separator=" ">
+			INTO ATTACH(USER_NO, SEQ, FILENAME, FILESIZE, REGDATE) VALUES(#{attachVO.userNo}, #{attachVO.seq}, #{attachVO.filename}, #{attachVO.filesize}, SYSDATE)
+		</foreach>
+	</update>
+	
+	<!-- 파라미터: String bookId 
+		책의 이미지인 ATTACH 테이블의 다음 seq번호 가져오기
+	-->
+	<select id="getSeq" parameterType="String" resultType="int">
+		SELECT NVL(MAX(SEQ),0)+1 FROM ATTACH WHERE USER_NO = #{bookId}
+	</select>
 </mapper>

@@ -45,4 +45,16 @@ public class GalleryServiceImpl implements GalleryService {
 	public List<BookVO> searchBook(BookVO bookVO) {
 		return this.galleryMapper.searchBook(bookVO);
 	}
+	
+	// 책 별 이미지 등록
+	@Override
+	public int uploadAjaxAction(List<AttachVO> attachVOList) {
+		return this.galleryMapper.uploadAjaxAction(attachVOList);
+	}
+	
+	// 책의 이미지인 ATTACH 테이블의 다음 seq번호 가져오기
+	@Override
+	public int getSeq(String bookId) {
+		return this.galleryMapper.getSeq(bookId);
+	}
 }

@@ -22,4 +22,9 @@ public interface GalleryMapper {
 	// 도서 검색
 	public List<BookVO> searchBook(BookVO bookVO);
 
+	// 책 별 이미지 등록
+	public int uploadAjaxAction(List<AttachVO> attachVOList);
+	
+	// 책의 이미지인 ATTACH 테이블의 다음 seq번호 가져오기
+	public int getSeq(String bookId);
 }

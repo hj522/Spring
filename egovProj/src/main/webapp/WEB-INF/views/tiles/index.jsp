@@ -4,7 +4,7 @@
 <%@ taglib prefix="sec"
 	uri="http://www.springframework.org/security/tags"%>
 <!DOCTYPE html>
-<html>
+<html class>
 <head>
 <!DOCTYPE html>
 <html lang="en">
@@ -51,7 +51,8 @@
 <link rel="stylesheet"
 	href="/resources/adminlte/plugins/datatables-buttons/css/buttons.bootstrap4.min.css">
 </head>
-<body class="hold-transition sidebar-mini layout-fixed">
+<!-- <body class="hold-transition sidebar-mini layout-fixed"> -->
+<body class="sidebar-mini sidebar-closed sidebar-collapse">
 	<div class="wrapper">
 
 		<!-- Preloader -->

@@ -228,6 +228,7 @@ $(function(){
 		*/
 		formData.append("bookId", bookId);
 		
+		
 		// 아작났어유 피씨다탔어
 		// dataType: 응답 데이터 타입
 		// /upload/uploadAjaxAction 참고
@@ -284,6 +285,13 @@ $(function(){
 		let data = {"title":str};
 		console.log("data: " + JSON.stringify(str));
 		
+		
+		// 스프링 시큐리티를 위한 토큰 처리(csrf)-> 불토엔 큰 코스로 픽스!
+		let header = "${_csrf.headerName}";
+		let token = "${_csrf.token}";
+		
+		console.log("header: " + header + " , token : " + token);
+		
 		// 아작났어유.. 피씨다타써
 		// contentType: 가즈아
 		// dataType: 드루와
@@ -293,6 +301,9 @@ $(function(){
 			data:JSON.stringify(data),
 			dataType:"json",
 			type:"post",
+			beforeSend: function(xhr){
+				xhr.setRequestHeader(header,token);
+			},
 			success: function(result) {
 //				console.log("result: " + JSON.stringify(result));
 				

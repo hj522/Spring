@@ -293,7 +293,10 @@
           <version>5.0.7.RELEASE</version>
       </dependency>
       
-      <!-- 스프링 시큐리티 일반 기능 -->
+      <!-- 스프링 시큐리티 일반 기능 
+	       1)인증(authentication) : 로그인
+	       2)인가(authorization) : 권한(role)
+	       - CSRF(Cross-site request forgery) 토큰 -->
       <!-- https://mvnrepository.com/artifact/org.springframework.security/spring-security-core -->
       <dependency>
           <groupId>org.springframework.security</groupId>

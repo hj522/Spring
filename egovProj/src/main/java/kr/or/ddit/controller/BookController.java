@@ -3,6 +3,7 @@ package kr.or.ddit.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.annotation.Validated;
@@ -74,6 +75,7 @@ public class BookController {
 		// jsp에 name값 줬는지 확인!!!! 그래야 값이 입력됩니다
 	}
 	
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@GetMapping("/insert")
 	public String insert(Model model) {
 		

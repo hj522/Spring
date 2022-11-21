@@ -1,10 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 
 <!-- Main Sidebar Container -->
 <aside class="main-sidebar sidebar-dark-primary elevation-4">
 	<!-- Brand Logo -->
-	<a href="index3.html" class="brand-link"> <img
+	<a href="/book/list" class="brand-link"> <img
 		src="/resources/images/apple.png"
 		alt="AdminLTE Logo" class="brand-image img-circle elevation-3"> 
 		<span class="brand-text font-weight-light">사과책방</span>
@@ -13,16 +14,39 @@
 	<!-- Sidebar -->
 	<div class="sidebar">
 		<!-- Sidebar user panel (optional) -->
-		<div class="user-panel mt-3 pb-3 mb-3 d-flex">
-			<div class="image">
-				<img src="/resources/images/blogger.png"
-					class="img-circle elevation-2" alt="User Image">
+		<!-- 로그인을 하지 않은 경우 -->
+		<sec:authorize access="isAnonymous()">
+			<div class="user-panel mt-3 pb-3 mb-3 d-flex">
+				<div class="image">
+					<img src="/resources/images/blogger.png"
+						class="img-circle elevation-2" alt="User Image">
+				</div>
+				<div class="info">
+					<a href="#" class="d-block">손님</a>
+				</div>
 			</div>
-			<div class="info">
-				<a href="#" class="d-block">효정</a>
+		</sec:authorize>
+		<!-- 인증된 사용자인 경우 -->
+		<sec:authorize access="isAuthenticated()">
+			<div class="user-panel mt-3 pb-3 mb-3 d-flex">
+				<div class="image">
+					<img
+						src="/resources/upload/<sec:authentication property="principal.memberVO.memId"/>.png"
+						class="img-circle elevation-2" alt="User Image">
+				</div>
+				<div class="info">
+					<a href="/book/list" class="d-block"> <b style="color: orange;"><sec:authentication
+							property="principal.memberVO.memName" /> (<sec:authentication
+							property="principal.memberVO.memId" />)</b>님 <br>환영합니다
+						<form action="/logout" method="post">
+							<button type="submit"
+								class="btn btn-block bg-gradient-secondary btn-sm">로그아웃</button>
+							<sec:csrfInput />
+						</form>
+					</a>
+				</div>
 			</div>
-		</div>
-
+		</sec:authorize>
 		<!-- SidebarSearch Form -->
 		<div class="form-inline">
 			<div class="input-group" data-widget="sidebar-search">

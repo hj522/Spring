@@ -41,7 +41,8 @@
 							data-id="/resources/upload${attachVO.filename}"
 							data-title="${bookVO.title}"
 							data-userno="${bookVO.bookId}"
-							data-seq="${attachVO.seq}">
+							data-seq="${attachVO.seq}"
+							data-filename="${attachVO.filename}">
 							<img src="/resources/upload${attachVO.filename}"
 							class="img-fluid mb-2" alt="white sample">
 						</a>
@@ -60,6 +61,7 @@
 				<h4 class="modal-title">Default Modal</h4>
 				<input type="hidden" id="txtUserNo" value="" />
 				<input type="hidden" id="txtSeq" value="" />
+				<input type="hidden" id="txtFilename" value="" />
 				<button type="button" class="close" data-dismiss="modal"
 					aria-label="Close">
 					<span aria-hidden="true">×</span>
@@ -75,6 +77,9 @@
 				<div style="float:right;">
 					<!-- 일반모드 시작 -->
 					<span id="spn1" style="display: block;">
+						<a class="btn btn-app" onclick="fn_download()">
+						<i class="fas fa-save"></i> 다운로드
+						</a>
 						<button type="button" class="btn btn-primary" id="updateImg">수정</button>
 						<button type="button" class="btn btn-outline-danger" id="deleteImg">삭제</button>
 					</span>
@@ -98,6 +103,7 @@
 		</div>
 	</div>
 </div>
+<iframe id="ifrm" name="ifrm" style="display:none;"></iframe>
 <!-- default modal 끝 -->
 <script type="text/javascript">
 $(function(){
@@ -111,15 +117,20 @@ $(function(){
 		// userNo랑 seq는 ATTACH 테이블의 복합키로써의 기본키(식별키)
 		let userno = $(this).data("userno");	// data-userNo="....."
 		let seq = $(this).data("seq");			// data-seq="....."
-		console.log("data: " + data + "title" + title + "userno: " + userno + ", seq: " + seq);
+		let filename = $(this).data("filename");
+		
+		// 세션 스토리지 활용~
+		sessionStorage.setItem("filename", filename);
+		
+		
+		console.log("data: " + data + "title" + title + "userno: " + userno + ", seq: " + seq + ", filename: " + filename);
 		
 		$("#body-content").html("<img src='" + data + "' style='width:100%;' />");
 		$(".modal-title").html(title);	// modal은 하나이고, modal-title 클래스 또한 하나임
 //		$(".modal-title").text(title);  <- .html()이랑 같음
 		$("#txtUserNo").val(userno);
 		$("#txtSeq").val(seq);
-
-	
+		$("#txtFilename").val(filename);
 	});
 	
 	// 도서 목록 가져와서 select에 추가하기
@@ -319,6 +330,18 @@ $(function(){
 		});
 	});
 	// 이미지 삭제 끝 //////////////////////////
+	
 });
 
+</script>
+
+<script type="text/javascript">
+// 파일 다운로드 함수
+function fn_download() {
+	let filename = sessionStorage.getItem("filename");
+	console.log("filename: " + filename);
+	
+	let vIfrm = document.getElementById("ifrm");
+	vIfrm.src = "/download?fileName="+filename
+}
 </script>

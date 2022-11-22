@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>  
 <script type="text/javascript" src="/resources/js/jquery-3.6.0.js"></script>
 <script type="text/javascript" src="/resources/ckeditor/ckeditor.js"></script>
 
@@ -14,7 +15,7 @@
 			$("#updateBook").css("display", "block");
 			$("#cancelBook").css("display", "block");
 			$("#editBook").css("display", "none");
-			$("#frm").attr("action", "/book/updatePost"); // 업데이트 form action 추가
+			$("#frm").attr("action", "/book/updatePost"); // 데이트 form action 추가
 			CKEDITOR.instances['content'].setReadOnly(false);	// content 수정
 		});
 		
@@ -108,6 +109,7 @@
 				</a>
 			</div>
 		</div>
+		<sec:csrfInput/>
 	</form>
 </div>
 <script type="text/javascript">

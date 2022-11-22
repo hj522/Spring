@@ -66,11 +66,14 @@ public class BookController {
 		
 		log.info("bookVO: " + bookVO.toString());
 		
+		// merge into에 의해 bookId가 변경될 것이므로 미리 bookId를 받아놓자
+		int bookId = bookVO.getBookId();
+		// updatePost(bookVO) -> insertPost(bookVO)
 		int result = this.bookService.updateBook(bookVO);
-
 		log.info("result: " + result);
 		
-		return "redirect:/book/detail?bookId="+bookVO.getBookId();
+//		return "redirect:/book/detail?bookId="+bookVO.getBookId();
+		return "redirect:/book/detail?bookId="+bookId;
 		
 		// jsp에 name값 줬는지 확인!!!! 그래야 값이 입력됩니다
 	}

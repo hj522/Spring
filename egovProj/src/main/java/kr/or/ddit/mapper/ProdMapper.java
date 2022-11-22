@@ -6,4 +6,5 @@ import java.util.Map;
 public interface ProdMapper {
 	
 	public List<Map<String,Object>> amtSale();
+	
 }

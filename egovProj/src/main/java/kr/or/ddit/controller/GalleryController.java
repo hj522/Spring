@@ -12,6 +12,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
@@ -73,12 +75,18 @@ public class GalleryController {
 	// ajax로 요청됨
 	@ResponseBody
 	@PostMapping("/updatePost")
-	public AttachVO updatePost(MultipartFile[] uploadFile, @ModelAttribute AttachVO attachVO) {
+	public AttachVO updatePost(MultipartFile[] uploadFile, @ModelAttribute AttachVO attachVO, HttpServletRequest req) {
 		
 		log.info("uploadFile: " + uploadFile + ", attachVO: " + attachVO);
 		
 		// 업로드 폴더 설정
-		String uploadFolder = "C:\\eGovFrameDev-3.10.0-64bit\\workspace\\egovProj\\src\\main\\webapp\\resources\\upload";
+//		String uploadFolder = "C:\\eGovFrameDev-3.10.0-64bit\\workspace\\egovProj\\src\\main\\webapp\\resources\\upload";
+		
+		String absolutePath = req.getRealPath(req.getContextPath());
+		log.info("absolutePath: " + absolutePath);
+		
+		String uploadFolder = absolutePath + "\\resources\\upload";
+		log.info("uploadFolder: " + uploadFolder);
 		
 		// 연월일 폴더 생성
 		File uploadPath = new File(uploadFolder, getFolder());
@@ -246,6 +254,7 @@ public class GalleryController {
 	// 요청파라미터: uploadFile[], bookId => 폼으로 오므로 RequestBody는 안 씀
 	// 요청방식: post
 	// 응답데이터: {"bookId":"3","status":"1"}
+	@PreAuthorize("permitAll")
 	@ResponseBody
 	@PostMapping("/uploadAjaxAction")
 	public Map<String, String> uploadAjaxAction(MultipartFile[] uploadFile, @RequestParam String bookId) {

@@ -228,7 +228,8 @@ $(function(){
 		*/
 		formData.append("bookId", bookId);
 		
-		
+		let header = "${_csrf.headerName}";
+		let token  = "${_csrf.token}";
 		// 아작났어유 피씨다탔어
 		// dataType: 응답 데이터 타입
 		// /upload/uploadAjaxAction 참고
@@ -238,6 +239,9 @@ $(function(){
 			url:"/gallery/uploadAjaxAction",
 			processData:false,
 			contentType:false,
+			beforeSend:function(xhr){
+		         xhr.setRequestHeader(header,token);
+		      },
 			data:formData,
 			dataType:"json",
 			type:"post",
